@@ -8,7 +8,7 @@ import { actionFor, digitOf, GLOBAL, isGlobal } from '../../lib/keymap.js';
 import { accounts, hydrated, orphans, overlay, ui } from '../../store.js';
 import { attention } from '../../derived.js';
 import { t } from '../../lib/i18n.js';
-import { closeTab, focusPane, nextAttention, openOverlay, reopenTab, setLayout, tabAt, tabStep, toggleSidebar } from '../../actions.js';
+import { closeOverlay, closeTab, focusPane, nextAttention, openOverlay, reopenTab, setLayout, tabAt, tabStep, toggleSidebar } from '../../actions.js';
 import { ChatOverlays } from '../chat/Pane.js';
 import { TopBar } from './TopBar.js';
 import { Sidebar } from './Sidebar.js';
@@ -20,7 +20,8 @@ import { Banners } from './Banners.js';
 import { QuickSwitcher } from './QuickSwitcher.js';
 import { Help } from './Help.js';
 import { PeekHost } from './PeekHost.js';
-import { MenuHost, menu } from './common.js';
+import { MenuHost, Modal, menu } from './common.js';
+import { Dashboard } from './Dashboard.js';
 import { modalOpen } from '../../lib/modal.js';
 import { NewChat } from '../dialogs/NewChat.js';
 import { Resume } from '../dialogs/Resume.js';
@@ -93,6 +94,7 @@ function OverlayHost() {
   switch (o.kind) {
     case 'switcher': return html`<${QuickSwitcher} />`;
     case 'help': return html`<${Help} />`;
+    case 'dashboard': return html`<${Modal} title=${t('dash.title')} onClose=${closeOverlay} wide=${true} cls="dash-dlg"><${Dashboard} inDialog=${true} /><//>`;
     case 'peek': return html`<${PeekHost} chatId=${p['chatId']} />`;
     case 'newChat': return html`<${NewChat} ...${p} />`;
     case 'resume': return html`<${Resume} />`;

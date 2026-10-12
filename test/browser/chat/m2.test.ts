@@ -81,9 +81,9 @@ test('header menus: Auto only when meta.autoAvailable; the model menu lists the 
     await page().keyboard.press('Escape');
     return out.map((x: string) => x.trim());
   };
-  assert.ok(!(await items('h-mode')).some((x) => x.includes('✦')), 'no Auto without autoAvailable');
+  assert.ok(!(await items('h-mode')).some((x) => x.startsWith('Auto')), 'no Auto without autoAvailable');
   await apply([ev({ k: 'meta', meta: { model: 'claude-opus-5-5', mode: 'default', autoAvailable: true } }, id)]);
-  assert.ok((await items('h-mode')).some((x) => x.includes('✦')), 'Auto with autoAvailable');
+  assert.ok((await items('h-mode')).some((x) => x.startsWith('Auto')), 'Auto with autoAvailable');
   const models = await items('h-model');
   assert.ok(models.includes('Opus 5.5') && models.includes('Sonnet'), models.join(' | '));
   assert.ok(!models.includes('haiku'), 'catalog replaces the aliases');

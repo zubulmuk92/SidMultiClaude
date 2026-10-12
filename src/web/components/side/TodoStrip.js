@@ -5,6 +5,7 @@ import { html } from 'htm/preact';
 import { t } from '../chat/text.js';
 import { chatUi, useChatVM } from '../chat/env.js';
 import { UI } from '../chat/consts.js';
+import { GlyphIcon, Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').TodoItem} TodoItem */
 
@@ -27,10 +28,10 @@ export function TodoStrip({ chatId }) {
   const open = u.todosOpen.value;
   return html`<div class=${'s-todos' + (open ? ' s-open' : '')}>
     <button type="button" class="c-disclosure s-todo-line" aria-expanded=${open} title="Alt+T" onClick=${() => { u.todosOpen.value = !open; }}>
-      ${t('tasks.strip', { fait: s.done, total: s.total, activeForm: s.active ? '◐ ' + s.active : '' }).replace(/ · $/, '')} ${open ? '▾' : '▸'}
+      ${t('tasks.strip', { fait: s.done, total: s.total, activeForm: s.active ?? '' }).replace(/ · $/, '')} <${Icon} n=${open ? 'chevron-down' : 'chevron-right'} size=${12} />
     </button>
     ${open ? html`<ul class="s-todo-list">${todos.slice(0, UI.BOTTOM_STRIP_MAX_TODOS).map((x) => html`<li class=${'s-todo s-' + x.status}>
-      <span aria-hidden="true">${GLYPH[x.status]}</span> ${x.status === 'in_progress' && x.activeForm ? x.activeForm : x.text}
+      <span aria-hidden="true"><${GlyphIcon} g=${GLYPH[x.status]} size=${13} /></span> ${x.status === 'in_progress' && x.activeForm ? x.activeForm : x.text}
       ${x.status === 'blocked' ? html` <small>(${t('todo.blocked')})</small>` : null}</li>`)}
       ${todos.length > UI.BOTTOM_STRIP_MAX_TODOS ? html`<li class="s-todo-more">… +${todos.length - UI.BOTTOM_STRIP_MAX_TODOS}</li>` : null}</ul>` : null}
   </div>`;

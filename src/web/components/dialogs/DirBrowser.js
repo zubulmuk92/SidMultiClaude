@@ -7,6 +7,7 @@ import { t } from '../../lib/i18n.js';
 import { fuzzyFilter } from '../../lib/fuzzy.js';
 import { listDirs } from '../../actions.js';
 import { Modal } from '../shell/common.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @param {string} base @param {string} name */
 export const joinPath = (base, name) => (/[\\/]$/.test(base) ? base + name : `${base}\\${name}`);
@@ -40,8 +41,8 @@ export function DirBrowser({ start, onPick, onClose }) {
       onKeyDown=${(/** @type {KeyboardEvent} */ e) => { if (e.key === 'Enter' && dirs[0] && listing) { e.preventDefault(); go(joinPath(listing.path, dirs[0])); } }} />
     <ul class="dir-list" role="list">
       ${listing?.parent !== undefined || (listing && listing.path) ? html`<li><button type="button" class="dir-item" onClick=${() => go(listing?.parent ?? null)}>.. ${t('shell.dir.up')}</button></li>` : null}
-      ${(listing?.drives ?? []).map((d) => html`<li key=${d}><button type="button" class="dir-item" onClick=${() => go(d)}>💽 ${d}</button></li>`)}
-      ${dirs.map((d) => html`<li key=${d}><button type="button" class="dir-item" onClick=${() => listing && go(joinPath(listing.path, d))} onDblClick=${() => listing && onPick(joinPath(listing.path, d))}>📁 ${d}</button></li>`)}
+      ${(listing?.drives ?? []).map((d) => html`<li key=${d}><button type="button" class="dir-item" onClick=${() => go(d)}><${Icon} n="drive" size=${14} /> ${d}</button></li>`)}
+      ${dirs.map((d) => html`<li key=${d}><button type="button" class="dir-item" onClick=${() => listing && go(joinPath(listing.path, d))} onDblClick=${() => listing && onPick(joinPath(listing.path, d))}><${Icon} n="folder" size=${14} /> ${d}</button></li>`)}
     </ul>
   </${Modal}>`;
 }

@@ -204,7 +204,7 @@ Legend: `◐` en cours, `!` autorisation, `?` question, `≡` plan, `✓` termin
 
 | Region | Size | Content | Collapse rule |
 |---|---|---|---|
-| **Top bar** | 36 px | • `☰` toggles the sidebar (`Alt+B`)<br>• app name<br>• search field that opens the quick switcher (`Ctrl+K`)<br>• global counters *! n à traiter* (click = `Alt+A`) and *◐ n en cours*<br>• one usage ring per logged-in account (monogram + headline %)<br>• Do-not-disturb bell<br>• `⚙` *Réglages* | Below 900 px: counters become icons only and the rings collapse into one ring |
+| **Top bar** | 44 px | • `☰` toggles the sidebar (`Alt+B`)<br>• app name<br>• search field that opens the quick switcher (`Ctrl+K`)<br>• global counters *! n à traiter* (click = `Alt+A`) and *◐ n en cours*<br>• one usage ring per logged-in account (monogram + headline %)<br>• Do-not-disturb bell<br>• `⚙` *Réglages* | Below 900 px: counters become icons only and the rings collapse into one ring |
 | **Sidebar** | 280 px, resizable 220–420 | §3.3 | Below 1,100 px: shrinks to a 48 px rail of account monograms with attention badges |
 | **Tab strip** | 32 px | Open chats (§3.4) | Overflows into `⌄` |
 | **Pane grid** | rest | 1 to 4 panes (§3.4) | Minimum pane width 420 px; if the window is too small, fall back to fewer columns |
@@ -226,7 +226,7 @@ Legend: `◐` en cours, `!` autorisation, `?` question, `≡` plan, `✓` termin
    - Under each folder: chats, newest first. 5 are shown, then *Afficher plus (n)*.
 5. **Footer:** *+ Nouveau chat* (`Alt+N`) and *⟲ Reprendre…* (`Alt+R`).
 
-**Chat row** (28 px; 40 px in the two-line « Confortable » density):
+**Chat row** (30 px; 44 px in the two-line « Confortable » density):
 
 ```
 ▌◐ Refacto auth ……………………… 0:42 ●
@@ -254,7 +254,8 @@ Legend: `◐` en cours, `!` autorisation, `?` question, `≡` plan, `✓` termin
   - Layouts: 1 / 2 (side by side, with a splitter) / 3 (one large left, two stacked right) / 4 (2×2). `Alt+L` cycles them.
   - Each pane shows exactly one open chat.
   - Clicking a tab shows it in the focused pane. **If the chat is already visible in another pane, that pane gets the focus instead (no duplicates).**
-  - The focused pane has a 2 px accent outline; `F6` cycles the focus.
+  - **Home view (v1.2):** with a single pane and no chat in it, the pane shows the dashboard (`components/shell/Dashboard.js`); the app name in the top bar and the quick switcher open the same view as a dialog. It holds four stat tiles (*À traiter*, *En cours*, *Processus actifs*, *Chats actifs sur 7 jours*), one card per account (usage meters; chats per day of last activity over 14 days, one series in the account colour, so no legend), then *À traiter* and *Récents*. It is computed from `hello` and the chat summaries only: no request, no token. Token and cost totals are not shown, because the window only knows them for loaded chats. With several panes, an empty pane keeps the short hint.
+  - The focused pane has a ring in the colour of its chat's account; `F6` cycles the focus.
   - `Ctrl+Entrée` in the sidebar or quick switcher opens the chat in a new pane, up to 4; beyond that it replaces the least-recently focused pane.
 - **What closing does.**
   - Closing a tab (`Alt+W`) only removes the view. A running chat keeps running and stays visible in the sidebar.
@@ -1367,36 +1368,48 @@ Commandes
 ```css
 :root {
   --font-ui: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
   --font-mono: "Cascadia Mono", "Cascadia Code", Consolas, monospace;
-  --fs-ui: 13px; --fs-chat: 14px; --lh-chat: 1.55; --fs-code: 12.5px;
+  --fs-ui: 13px; --fs-chat: 14.5px; --lh-chat: 1.6; --fs-code: 12.5px;
   --sp-1: 2px; --sp-2: 4px; --sp-3: 6px; --sp-4: 8px; --sp-5: 12px; --sp-6: 16px; --sp-7: 24px;
-  --radius-card: 6px; --radius-chip: 4px; --motion: 120ms cubic-bezier(.2,.8,.2,1);
+  --radius-pane: 12px; --radius-card: 10px; --radius-chip: 6px; --radius-pill: 999px;
+  --measure: 820px; --motion: 120ms cubic-bezier(.2,.8,.2,1);
 
   /* light */
-  --bg-app:#F6F7F9; --bg:#FFFFFF; --bg-elev:#FFFFFF; --bg-sunken:#EEF0F3; --bg-hover:#E9ECF1; --bg-active:#DDE3EC;
-  --fg:#1B1F24; --fg-muted:#57606A; --fg-subtle:#636C76; --border:#D0D7DE; --border-strong:#AFB8C1;
+  --bg-app:#EFF1F5; --bg:#FFFFFF; --bg-elev:#FFFFFF; --bg-sunken:#F1F3F6; --bg-hover:#E9ECF1; --bg-active:#DDE3EC;
+  --lift:rgb(255 255 255 / .7);
+  --fg:#171A1F; --fg-muted:#57606A; --fg-subtle:#636C76; --border:#DCE0E6; --border-strong:#B9C0CA;
   --accent:#2F5BD3; --focus:#2F6FED; --on-accent:#FFFFFF;
+  --shadow-1:0 1px 2px rgb(16 24 40 / .06), 0 1px 3px rgb(16 24 40 / .08);
+  --shadow-2:0 4px 12px rgb(16 24 40 / .08), 0 12px 32px rgb(16 24 40 / .12);
+  --shadow-3:0 8px 24px rgb(16 24 40 / .12), 0 24px 64px rgb(16 24 40 / .22);
+  --scrim:rgb(16 24 40 / .38);
   --st-run:#1D63D8; --st-needs:#8A5D00; --st-needs-bg:#FFF4D6; --st-done:#177A33; --st-err:#CF222E;
   --st-err-bg:#FFEBE9; --st-limit:#B04600; --st-cold:#7D8590; /* cold = glyph only (≥ 3:1), never text */
   --mode-manual:#57606A; --mode-edits:#8250DF; --mode-plan:#0F766E; --mode-auto:#3F4FB8; --mode-bypass:#CF222E;
   --diff-add-bg:#E6FFEC; --diff-add-fg:#116329; --diff-add-word:#ABF2BC;
   --diff-del-bg:#FFEBE9; --diff-del-fg:#82071E; --diff-del-word:#FFC1C0; --diff-hunk-bg:#DDF4FF;
   --code-bg:#F6F8FA; --code-fg:#1F2328; --selection:#B6D4FE;
-  /* account palette (white text ≥ 4.5:1 on each) */
+  /* account palette (`--on-accent` text ≥ 4.5:1 on each, in both themes) */
   --acc-1:#7C3AED; --acc-2:#0F766E; --acc-3:#BE185D; --acc-4:#0E7490;
   --acc-5:#4D7C0F; --acc-6:#9A3412; --acc-7:#4338CA; --acc-8:#475569;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { /* repeat every token of the [data-theme="dark"] rule below */ } }
 :root[data-theme="dark"] {
-  --bg-app:#0B0D10; --bg:#0F1115; --bg-elev:#161A20; --bg-sunken:#0A0C0F; --bg-hover:#1E242C; --bg-active:#263040;
-  --fg:#E6EDF3; --fg-muted:#9DA7B3; --fg-subtle:#8B949E; --border:#2D333B; --border-strong:#444C56;
+  --bg-app:#0B0D10; --bg:#12151A; --bg-elev:#181C22; --bg-sunken:#0D0F13; --bg-hover:#1E242C; --bg-active:#263040;
+  --lift:rgb(255 255 255 / .05);
+  --fg:#E6EDF3; --fg-muted:#9DA7B3; --fg-subtle:#8B949E; --border:#262C34; --border-strong:#3D4550;
   --accent:#6C9EFF; --focus:#79A8FF; --on-accent:#0B0D10;
+  --shadow-1:0 1px 2px rgb(0 0 0 / .4), 0 1px 3px rgb(0 0 0 / .3);
+  --shadow-2:0 4px 12px rgb(0 0 0 / .4), 0 12px 32px rgb(0 0 0 / .45);
+  --shadow-3:0 8px 24px rgb(0 0 0 / .45), 0 24px 64px rgb(0 0 0 / .6);
+  --scrim:rgb(0 0 0 / .55);
   --st-run:#58A6FF; --st-needs:#E3B341; --st-needs-bg:#3A2E0B; --st-done:#3FB950; --st-err:#F85149;
   --st-err-bg:#3D1414; --st-limit:#F0883E; --st-cold:#6E7681;
   --mode-manual:#9DA7B3; --mode-edits:#A371F7; --mode-plan:#2BB3A3; --mode-auto:#7C8CF8; --mode-bypass:#F85149;
   --diff-add-bg:rgba(46,160,67,.15); --diff-add-fg:#7EE787; --diff-add-word:rgba(46,160,67,.40);
   --diff-del-bg:rgba(248,81,73,.15); --diff-del-fg:#FFA198; --diff-del-word:rgba(248,81,73,.40); --diff-hunk-bg:#0C2D4B;
-  --code-bg:#11151A; --code-fg:#E6EDF3; --selection:#264F78;
+  --code-bg:#0D1014; --code-fg:#E6EDF3; --selection:#264F78;
   --acc-1:#A78BFA; --acc-2:#2DD4BF; --acc-3:#F472B6; --acc-4:#22D3EE;
   --acc-5:#A3E635; --acc-6:#FB923C; --acc-7:#818CF8; --acc-8:#94A3B8;
 }
@@ -1405,16 +1418,19 @@ body { background: var(--bg-app); color: var(--fg); font: var(--fs-ui)/1.4 var(-
 @media (forced-colors: active) { /* states keep their glyphs; borders use CanvasText/Highlight */ }
 ```
 
-- **Contrast, recomputed with the WCAG formula** (a WCAG contrast script). v1.1 corrected `--fg-subtle`, `--st-done`, `--st-limit` and `--st-cold`, because the v1 values failed on some surfaces.
-  - White text on all 8 light account colours: 4.99–7.90. Monogram chips always use these darker variants with white text, in both themes. White on the light dark-mode variants would be only 1.5–3.0.
+- **Surfaces (v1.2 visual refresh):** `--bg-app` is the canvas (top bar, sidebar, tabs, status bar); `--bg` is the sheet laid on it (panes, cards, inputs). On the canvas, hover lifts towards the sheet (`--lift`) and the selected row or tab becomes a sheet (`--bg` + `--shadow-1`). On a sheet, hover sinks (`--bg-hover`). Shadows are for what floats (selected row or tab, composer, menus, dialogs), never for a pane.
+- **Icons, never emoji (v1.2):** every pictogram on screen is an inline SVG from `src/web/lib/icons.js` (24-unit grid, 2-unit round stroke, `currentColor`), so it looks the same on every Windows build and follows the text colour and the theme. The glyph characters named elsewhere in this document (○ ◐ ! ? ≡ ⧗ ✕ ✓ ⌨ ⚙ ☰ ⋯ ★ …) describe the shape; on screen they are drawn through `GlyphIcon`. Only text-only places keep characters: the window title (`!2 ✕1 ✓1`) and notifications. Keyboard hints spell the key (« Entrée »).
+- **The account colour is the only strong colour of the chrome:** stripe, monogram, the user's own message bubbles (10 % tint), « Envoyer », and the ring of the focused pane and of the focused composer. Everything else is neutral; `--accent` stays for links, primary dialog buttons and keyboard focus.
+- **Contrast, recomputed with the WCAG formula** (`test/unit/web-shell/tokens-contrast.test.ts` keeps it true). v1.1 corrected `--fg-subtle`, `--st-done`, `--st-limit` and `--st-cold`, because the v1 values failed on some surfaces.
+  - `--on-accent` text on the 8 account colours: white on the light-theme variants (4.99–7.90), near-black on the lighter dark-theme variants. Monogram chips and « Envoyer » use it in both themes.
   - **Light text tokens** on `--bg`, `--bg-app`, `--bg-sunken` and `--bg-hover`: `--fg-subtle` ≥ 4.50, `--st-run` ≥ 4.63, `--st-needs` ≥ 4.86, `--st-done` ≥ 4.58, `--st-err` ≥ 4.52, `--st-limit` ≥ 4.76, `--accent` ≥ 4.98.
   - **Dark text tokens** on `--bg`, `--bg-app`, `--bg-elev`, `--bg-sunken` and `--bg-hover`: all ≥ 4.66 (`--st-err` is the lowest, on hover).
   - **Tinted cards:** `--st-needs` on `--st-needs-bg` is 5.26 light and 6.85 dark; `--st-err` on `--st-err-bg` is 4.67 light and 4.79 dark.
   - **Selected rows (`--bg-active`):** state colours drop to 3.9–4.5 in light and 4.0 for red in dark. Text on a selected row therefore uses `--fg` / `--fg-muted` (≥ 4.95). Glyphs keep their state colour (≥ 3:1), except the cold glyph, which turns `--fg-muted`.
   - `--st-cold` is a glyph only: ≥ 3.15 light (on everything except `--bg-active`) and ≥ 3.40 dark.
 - **Theme setting:** *Thème : Système / Clair / Sombre*, applied as `data-theme` on `<html>`.
-- **Density:** *Compacte* (default: 28 px rows, 13 px UI) / *Confortable* (40 px rows, 14 px).
-- **Account colours in dark mode** use the lighter variants for stripes and outlines. Monogram chips keep the dark variant behind white text.
+- **Density:** *Compacte* (default: 30 px rows, 13 px UI) / *Confortable* (44 px rows, 14 px).
+- **Account colours in dark mode** use the lighter variants everywhere, with `--on-accent` (near-black) text on monogram chips.
 
 ---
 

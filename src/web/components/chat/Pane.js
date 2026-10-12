@@ -6,7 +6,7 @@
 import { html } from 'htm/preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { t } from './text.js';
-import { act, announce, announcement, chatUi, cycleView, requestComposerFocus, useChatVM } from './env.js';
+import { accountOf, act, announce, announcement, chatUi, cycleView, requestComposerFocus, useChatVM } from './env.js';
 import { CHAT, actionFor, inTextField } from '../../lib/keymap.js';
 import { ErrorBoundary } from './ErrorBoundary.js';
 import { PaneHeader } from './PaneHeader.js';
@@ -76,7 +76,8 @@ export function Pane({ chatId, pane, focused }) {
     }
     if (e.key === 'Escape' && !inTextField(e.target) && isBusy(sum.state.phase)) run(() => interruptChat(chatId));
   };
-  return html`<section ref=${root} class=${'c-pane' + (focused ? ' c-focused' : '')} data-chat=${chatId} data-pane=${pane}
+  const acc = accountOf(sum.accountId);
+  return html`<section ref=${root} class=${'c-pane' + (acc ? ' acc-' + acc.color : '') + (focused ? ' c-focused' : '')} data-chat=${chatId} data-pane=${pane}
       role="region" aria-label=${t('chat.region', { titre: sum.title, compte: sum.accountId })} onKeyDown=${onKey}>
     <${ErrorBoundary} label="header" chatId=${chatId}><${PaneHeader} chatId=${chatId} narrow=${narrow} /><//>
     <${ErrorBoundary} label="banners" chatId=${chatId}><${PaneBanners} chatId=${chatId} /><//>

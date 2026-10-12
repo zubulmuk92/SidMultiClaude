@@ -8,6 +8,7 @@ import { useState } from 'preact/hooks';
 import { t } from '../chat/text.js';
 import { act, getEnv, useChatVM } from '../chat/env.js';
 import { queueChip, takeBackable } from './logic.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').QueueItem} QueueItem */
 
@@ -45,14 +46,14 @@ export function QueueList({ chatId, onTakeBack }) {
     ${items.map((q) => {
       const c = queueChip(q);
       return html`<div key=${q.uuid} role="listitem" class=${'q-item q-' + q.delivery + (c.done ? ' q-done' : '')} data-uuid=${q.uuid}>
-        <span class="q-text" title=${q.text}>« ${q.text.split('\n')[0]} »${q.images ? ` · 🖼 ${q.images}` : ''}</span>
+        <span class="q-text" title=${q.text}>« ${q.text.split('\n')[0]} »${q.images ? html` · <${Icon} n="image" size=${13} /> ${q.images}` : ''}</span>
         <span class="q-state">${t(c.key)}</span>
         ${c.resend ? html`<button type="button" class="c-mini" disabled=${busy === q.uuid}
           onClick=${() => { getEnv().actions.resend(chatId, q.uuid); }}>${t('composer.resend')}</button>` : null}
         ${c.editable ? html`<button type="button" class="c-icon" aria-label=${t('queue.edit')} title=${t('queue.edit')} disabled=${busy === q.uuid}
-          onClick=${() => edit(q)}>✎</button>` : null}
+          onClick=${() => edit(q)}><${Icon} n="pencil" size=${14} /></button>` : null}
         ${c.removable ? html`<button type="button" class="c-icon" aria-label=${t('queue.remove')} title=${t('queue.remove')} disabled=${busy === q.uuid}
-          onClick=${() => remove(q)}>✕</button>` : null}
+          onClick=${() => remove(q)}><${Icon} n="x" /></button>` : null}
       </div>`;
     })}
   </div>`;

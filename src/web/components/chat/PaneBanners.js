@@ -8,6 +8,7 @@ import { t, talt, tp, fmtTime, fmtDuration } from './text.js';
 import { act, accountOf, getEnv, useChatVM } from './env.js';
 import { openOverlay } from '../side/overlays.js';
 import { continueTargets } from '../side/ContinueOnDialog.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').ChatStateView} ChatStateView */
 
@@ -53,16 +54,16 @@ export function PaneBanners({ chatId }) {
   const other = continueTargets(env.accounts.value, sum.accountId).find((a) => a.login === 'connected');
   const err = s.phase === 'error' && s.error ? errorBanner(s.error, { compte: acc?.name ?? sum.accountId, cwd: sum.cwd }) : null;
   return html`<div class="b-stack">
-    ${mode === 'bypassPermissions' ? html`<div class="b-banner b-bypass" role="alert">${t('mode.bypass.banner')}</div>` : null}
-    ${s.flags.external ? html`<div class="b-banner b-info" role="status">⌨ ${t(`state.external.${s.flags.external.status}`)} · ${t('term.locked')}</div>` : null}
+    ${mode === 'bypassPermissions' ? html`<div class="b-banner b-bypass" role="alert"><${Icon} n="alert-triangle" size=${14} /> ${t('mode.bypass.banner')}</div>` : null}
+    ${s.flags.external ? html`<div class="b-banner b-info" role="status"><${Icon} n="terminal" size=${14} /> ${t(`state.external.${s.flags.external.status}`)} · ${t('term.locked')}</div>` : null}
     ${s.flags.stuck ? html`<div class="b-banner b-warn" role="alert">${t('state.stuck')}
       <button type="button" class="d-btn d-danger" onClick=${() => void act().forceStop(chatId).catch(() => {})}>${t('action.forceStop')}</button></div>` : null}
     ${limit && ignored !== limit.resetsAt ? html`<div class="b-banner b-limit" role="status">
-      ⧗ ${talt('limit.banner', /week|seven|hebdo/i.test(limit.kind) ? 1 : 0, { compte: acc?.name ?? sum.accountId, heure: fmtTime(limit.resetsAt), 'durée': fmtDuration(limit.resetsAt - Date.now()) })}
+      <${Icon} n="hourglass" size=${14} /> ${talt('limit.banner', /week|seven|hebdo/i.test(limit.kind) ? 1 : 0, { compte: acc?.name ?? sum.accountId, heure: fmtTime(limit.resetsAt), 'durée': fmtDuration(limit.resetsAt - Date.now()) })}
       <button type="button" class="d-btn" disabled=${armed} onClick=${() => { notifyAt(sum.title, limit.resetsAt); setArmed(true); }}>${t('limit.notifyMe')}</button>
       ${other ? html`<button type="button" class="d-btn" onClick=${() => openOverlay({ kind: 'continue', chatId, target: other.id })}>${t('limit.continue', { compte: other.name })}</button>` : null}
       <button type="button" class="d-btn d-quiet" onClick=${() => setIgnored(limit.resetsAt)}>${t('limit.ignore')}</button></div>` : null}
-    ${err ? html`<div class="b-banner b-err" role="alert">✕ ${t(err.key, err.args)}
+    ${err ? html`<div class="b-banner b-err" role="alert"><${Icon} n="x-circle" size=${14} /> ${t(err.key, err.args)}
       ${err.retry ? html`<button type="button" class="d-btn" data-retry="1" onClick=${() => void act().retry(chatId).catch(() => {})}>${tp('err.actions', retryLabel(s.error))}</button>` : null}</div>` : null}
   </div>`;
 }

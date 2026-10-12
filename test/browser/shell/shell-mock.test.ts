@@ -122,6 +122,25 @@ test('À traiter: oldest need first; Alt+A cycles through it', { skip: SKIP }, a
   await eventually(async () => { assert.match(await page.title(), /^!2 ✕1 ✓1 · SidMultiClaude$/); });
 });
 
+test('dashboard: the empty single pane shows it, with the top bar\'s count; a row opens its chat; the app name brings it back as a dialog', { skip: SKIP }, async () => {
+  const { page, problems } = await openApp();
+  const tiles = page.locator('.dash-tile');
+  await tiles.first().waitFor();
+  assert.equal(await tiles.count(), 4);
+  const top = await page.locator('.topbar .counter.needs').innerText();          // « ! n à traiter »
+  assert.equal(await tiles.first().locator('.dash-tile-value').innerText(), /\d+/.exec(top)?.[0]);
+  assert.equal(await page.locator('.dash-acc').count(), 2, 'one card per account');
+  assert.equal(await page.locator('.dash-acc').first().getByRole('meter').count(), 1, 'its usage window');
+  await page.locator('.dash-card', { hasText: 'Récents' }).locator('.dash-row').first().click();
+  await eventually(async () => { assert.equal(await focusedPaneChat(page), chatIdOf('Refacto auth')); });
+  assert.equal(await page.locator('.dash').count(), 0, 'the chat replaces the home view');
+  await page.locator('.app-name').click();
+  await page.locator('.dash-dlg .dash-tile').first().click();                    // « À traiter »: the oldest need
+  await eventually(async () => { assert.equal(await focusedPaneChat(page), chatIdOf('Fix CI')); });
+  assert.equal(await page.locator('.dash-dlg').count(), 0);
+  assert.deepEqual(problems, []);
+});
+
 test('Ctrl+K: prefixes e: and >, Entrée opens; theme action applies', { skip: SKIP }, async () => {
   const { page } = await openApp();
   const first = page.locator('.chat-row[data-chat]').first();

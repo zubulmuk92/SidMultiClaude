@@ -10,6 +10,7 @@ import { accountById, accounts, chats, now } from '../../store.js';
 import { attentionReason, switcherResults } from '../../derived.js';
 import { closeOverlay, openChat, openOverlay, quitApp, reopenTab, setLayout, setSettings, toggleSidebar, actions } from '../../actions.js';
 import { AccBadge, Glyph, trapFocus } from './common.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {{ id: string; label: string; keywords?: string; run: () => void }} ActionItem */
 
@@ -27,6 +28,7 @@ export function appActions() {
     { id: 'system', label: t('shell.act.themeSystem'), run: () => setSettings({ theme: 'system' }) },
     { id: 'reopen', label: t('tabs.reopen'), keywords: 'onglet', run: () => reopenTab() },
     { id: 'resume', label: t('nav.resume'), run: () => openOverlay('resume') },
+    { id: 'dashboard', label: t('dash.title'), keywords: 'accueil usage kpi', run: () => openOverlay('dashboard') },
     { id: 'accounts', label: t('nav.accounts'), run: () => openOverlay('accounts') },
     { id: 'settings', label: t('nav.settings'), run: () => openOverlay('settings') },
     { id: 'help', label: t('shell.act.help'), keywords: 'aide clavier', run: () => openOverlay('help') },
@@ -88,8 +90,8 @@ export function QuickSwitcher() {
           const head = h.group !== lastGroup ? html`<li class="sw-group" role="presentation">${t(GROUP_KEY[h.group])}</li>` : null;
           lastGroup = h.group;
           let body;
-          if (h.group === 'actions') body = html`<span class="sw-glyph">›</span><span class="sw-title">${h.action.label}</span>`;
-          else if (h.group === 'folders') body = html`<span class="sw-glyph">▸</span><span class="sw-title">${baseName(h.path)} (${accountById.value.get(h.accountId)?.name ?? h.accountId})</span><span class="sw-meta">${t('shell.sw.folderHint')}</span>`;
+          if (h.group === 'actions') body = html`<span class="sw-glyph"><${Icon} n="chevron-right" size=${14} /></span><span class="sw-title">${h.action.label}</span>`;
+          else if (h.group === 'folders') body = html`<span class="sw-glyph"><${Icon} n="folder" size=${14} /></span><span class="sw-title">${baseName(h.path)} (${accountById.value.get(h.accountId)?.name ?? h.accountId})</span><span class="sw-meta">${t('shell.sw.folderHint')}</span>`;
           else {
             const s = h.s;
             const meta = h.group === 'attention' ? attentionReason(s, undefined, now.value) : fmtAge(s.updatedAt, Date.now());

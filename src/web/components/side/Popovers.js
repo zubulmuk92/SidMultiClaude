@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { t, fmtTokens, fmtBytes, fmtPct } from '../chat/text.js';
 import { act } from '../chat/env.js';
 import { closeOverlay } from './overlays.js';
+import { GlyphIcon, Icon } from '../../lib/icons.js';
 
 /** Modal dialog: role=dialog, Échap closes, focus moves inside and stays there (Tab wraps).
  * @param {{ title: string; onClose: () => void; cls?: string; onKey?: (e: KeyboardEvent) => boolean | void; children?: import('preact').ComponentChildren; footer?: import('preact').ComponentChildren }} p */
@@ -31,14 +32,14 @@ export function Modal({ title, onClose, cls, onKey, children, footer }) {
   return html`<div class="c-backdrop" onMouseDown=${(/** @type {MouseEvent} */ e) => { if (e.target === e.currentTarget) onClose(); }}>
     <div ref=${ref} class=${'c-modal ' + (cls ?? '')} role="dialog" aria-modal="true" aria-label=${title} tabindex="-1" onKeyDown=${key}>
       <header class="c-modal-head"><h2>${title}</h2>
-        <button type="button" class="c-icon" data-close aria-label=${t('lightbox.close')} onClick=${onClose}>✕</button></header>
+        <button type="button" class="c-icon" data-close aria-label=${t('lightbox.close')} onClick=${onClose}><${Icon} n="x" /></button></header>
       <div class="c-modal-body">${children}</div>
       ${footer ? html`<footer class="c-modal-foot">${footer}</footer>` : null}
     </div>
   </div>`;
 }
 
-/** @typedef {{ id: string; label: string; hint?: string; checked?: boolean; disabled?: boolean; danger?: boolean; sep?: boolean }} MenuItem */
+/** @typedef {{ id: string; label: string; glyph?: string; hint?: string; checked?: boolean; disabled?: boolean; danger?: boolean; sep?: boolean }} MenuItem */
 /** Button + role=menu with arrow keys, type-ahead and digits 1–9 (Alt+M then 1–5).
  * @param {{ label: import('preact').ComponentChildren; title?: string; items: MenuItem[]; onPick: (id: string) => void; cls?: string; open?: boolean; onOpenChange?: (o: boolean) => void; radio?: boolean }} p */
 export function Menu({ label, title, items, onPick, cls, open, onOpenChange, radio }) {
@@ -73,7 +74,7 @@ export function Menu({ label, title, items, onPick, cls, open, onOpenChange, rad
         <button type="button" role=${radio ? 'menuitemradio' : 'menuitem'} aria-checked=${radio ? !!it.checked : undefined}
           class=${'c-menu-item' + (it.danger ? ' c-danger' : '')} disabled=${it.disabled} tabindex="-1"
           onClick=${() => { set(false); onPick(it.id); }}>
-          <span>${it.label}</span>${it.hint ? html`<small>${it.hint}</small>` : null}</button>`)}
+          <span>${it.glyph ? html`<${GlyphIcon} g=${it.glyph} size=${14} /> ` : null}${it.label}</span>${it.hint ? html`<small>${it.hint}</small>` : null}</button>`)}
     </div>` : null}
   </span>`;
 }

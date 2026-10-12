@@ -13,6 +13,8 @@
 
 ![Fenêtre principale : barre latérale des comptes et des chats, deux chats côte à côte](docs/images/apercu.png)
 
+![Tableau de bord : chiffres clés, usage et activité de chaque compte, chats à traiter et récents](docs/images/tableau-de-bord.png)
+
 | File « À traiter » | Comptes |
 |---|---|
 | ![Demandes d’autorisation en attente, tous comptes confondus](docs/images/a-traiter.png) | ![Panneau Comptes avec plusieurs profils Claude Code](docs/images/comptes.png) |
@@ -21,6 +23,7 @@
 
 - **Multi-comptes** : chaque compte est un profil Claude Code (`~\.claude`, `~\.claude-<nom>`), avec un nom, une couleur et un monogramme visibles partout.
 - **Plusieurs chats côte à côte** : onglets, volets, barre latérale groupée par compte et par dossier, sélecteur rapide (`Ctrl+K`).
+- **Tableau de bord** : à l’ouverture, les chiffres clés (à traiter, en cours, processus actifs, chats actifs), l’usage et l’activité de chaque compte, les chats à traiter et les plus récents. Il ne lit que ce que la fenêtre connaît déjà : aucune requête, aucun token.
 - **File « À traiter »** : toutes les demandes d’autorisation, questions et plans en attente, quel que soit le compte, avec un aperçu rapide depuis la barre latérale.
 - **Le vrai Claude Code** : le `claude.exe` installé, piloté par l’Agent SDK d’Anthropic. Mêmes réglages, mêmes outils, mêmes skills, mêmes MCP que dans votre terminal.
 - **Zone de saisie complète** : file de messages (« après ce tour »), palette de commandes `/`, mentions `@`, pièces jointes, historique, brouillons conservés.
@@ -51,7 +54,7 @@ Comment c’est garanti :
 - **Mêmes requêtes que Claude Code** quand il répond lui-même aux demandes d’autorisation : invite système `claude_code`, sources de réglages `user`, `project` et `local`, mode de permission explicite, aucune option qui changerait les requêtes. Un seul constructeur d’options, vérifié par les tests de parité.
 - **Pas d’appel caché** : la génération de titre par IA est désactivée (`CLAUDE_CODE_DISABLE_TERMINAL_TITLE=1`), sauf si vous activez *Réglages › Titres IA*.
 - **Le cache reste chaud** : un processus vivant par chat actif, mis en veille seulement après expiration de son cache (1 h par défaut), jamais un cache encore chaud sans votre accord.
-- **Coûts annoncés** : réveiller un chat endormi recrée son cache (de l’ordre de tout l’historique) et l’estimation s’affiche avant ; les actions qui coûtent volontairement des tokens portent la mention « ↯ modèle » (`/compact`, changement de modèle quand le cache est chaud…).
+- **Coûts annoncés** : réveiller un chat endormi recrée son cache (de l’ordre de tout l’historique) et l’estimation s’affiche avant ; les actions qui coûtent volontairement des tokens portent la mention « modèle », précédée d’une icône d’éclair (`/compact`, changement de modèle quand le cache est chaud…).
 - **Sentinelle** : le pied de chaque tour indique les tokens consommés hors de la boucle principale (sous-agents, outils) ; sur un tour simple, ce nombre reste à 0.
 - Par rapport à `claude -p` sans hôte, l’application ajoute les 3 outils d’interaction que Claude Code n’offre que lorsqu’un hôte répond aux demandes (AskUserQuestion, EnterPlanMode, ExitPlanMode) : environ +17 tokens par requête avec un abonnement, où ils sont différés derrière ToolSearch.
 - Pour les comptes autres que le profil par défaut, le `~\.claude\CLAUDE.md` du profil par défaut (que Claude Code chargerait comme instructions d’un dossier parent) est exclu par défaut. Réglable par compte dans *Comptes*.

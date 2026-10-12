@@ -20,6 +20,7 @@ import { HistorySearch } from './HistorySearch.js';
 import { WakeHint } from './WakeHint.js';
 import { CapChoice } from './CapChoice.js';
 import { modalOpen } from '../../lib/modal.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').ChatPhase} ChatPhase */
 /** @typedef {import('../../../shared/protocol.ts').FileHit} FileHit */
@@ -330,17 +331,17 @@ export function Composer({ chatId, focused }) {
     <div class="k-foot">
       <input ref=${fileIn} type="file" accept="image/png,image/jpeg,image/gif,image/webp" multiple hidden
         onChange=${(/** @type {any} */ e) => { void addFiles([...e.currentTarget.files]); e.currentTarget.value = ''; }} />
-      <button type="button" class="c-icon" title=${t('composer.attach')} aria-label=${t('composer.attach')} onClick=${() => fileIn.current?.click()}>+</button>
-      <button type="button" class=${'k-pill k-mode m-' + mode} onClick=${() => { u.menu.value = 'mode'; }}>${t('mode.' + (mode === 'bypassPermissions' ? 'bypass' : mode)).split(' — ')[0]} ▾</button>
-      <button type="button" class="k-pill" onClick=${() => { u.menu.value = 'model'; }}>${meta?.model ?? sum.model ?? t('model.default')}${meta?.effort ? ' · ' + meta.effort : ''} ▾</button>
+      <button type="button" class="c-icon" title=${t('composer.attach')} aria-label=${t('composer.attach')} onClick=${() => fileIn.current?.click()}><${Icon} n="plus" /></button>
+      <button type="button" class=${'k-pill k-mode m-' + mode} onClick=${() => { u.menu.value = 'mode'; }}>${t('mode.' + (mode === 'bypassPermissions' ? 'bypass' : mode)).split(' — ')[0]} <${Icon} n="chevron-down" size=${12} /></button>
+      <button type="button" class="k-pill" onClick=${() => { u.menu.value = 'model'; }}>${meta?.model ?? sum.model ?? t('model.default')}${meta?.effort ? ' · ' + meta.effort : ''} <${Icon} n="chevron-down" size=${12} /></button>
       ${tasks.length ? html`<button type="button" class="k-pill k-agents" onClick=${() => { u.drawer.value = !u.drawer.value; }}>
-        ⚙ ${t('agents.chip', { n: tasks.length })} <span class=${'k-dot' + (agentAsks ? ' k-dot-ask' : '')} aria-hidden="true">●</span></button>` : null}
+        <${Icon} n="settings" size=${13} /> ${t('agents.chip', { n: tasks.length })} <span class=${'k-dot' + (agentAsks ? ' k-dot-ask' : '')} aria-hidden="true"><${Icon} n="dot-fill" size=${10} /></span></button>` : null}
       <span class="k-spacer"></span>
-      ${busy ? html`<button type="button" class="d-btn k-stop" title=${t('composer.stop')} onClick=${() => interruptChat(chatId)}>■ ${tp('composer.stop', 0).split(' (')[0]}</button>` : null}
+      ${busy ? html`<button type="button" class="d-btn k-stop" title=${t('composer.stop')} onClick=${() => interruptChat(chatId)}><${Icon} n="stop-fill" size=${12} /> ${tp('composer.stop', 0).split(' (')[0]}</button>` : null}
       <span class="k-send">
-        <button type="button" class="d-btn d-primary" disabled=${!draft.text.trim() && !atts.length} onClick=${() => send('send')}>${sendLabel} ⏎</button>
+        <button type="button" class="d-btn d-primary" disabled=${!draft.text.trim() && !atts.length} onClick=${() => send('send')}>${sendLabel} <${Icon} n="enter" size=${14} /></button>
         ${busy ? html`<button type="button" class="d-btn d-primary k-split" aria-haspopup="menu" aria-expanded=${sendMenu} aria-label=${t('composer.later')}
-          onClick=${() => setSendMenu(!sendMenu)}>▾</button>` : null}
+          onClick=${() => setSendMenu(!sendMenu)}><${Icon} n="chevron-down" size=${14} /></button>` : null}
         ${sendMenu && busy ? html`<div class="c-menu-list k-sendmenu" role="menu">
           <button type="button" role="menuitem" class="c-menu-item" onClick=${() => send('later')}>${t('composer.later')}</button>
           <button type="button" role="menuitem" class="c-menu-item" disabled=${!canNow} title=${canNow ? '' : t('composer.sendNow.fallback')}

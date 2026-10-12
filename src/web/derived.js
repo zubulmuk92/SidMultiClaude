@@ -347,14 +347,45 @@ export function recentFolders(list, n = 8) {
   return [...m.values()].sort((a, b) => b.at - a.at).slice(0, n);
 }
 
+// ------------------------------------------------------------------ dashboard (home view)
+const DAY_MS = 86_400_000;
+/** Local midnight of a timestamp. @param {number} at */
+export function dayStart(at) { const d = new Date(at); d.setHours(0, 0, 0, 0); return d.getTime(); }
+/**
+ * Chats per local day of their LAST activity (updatedAt), oldest day first, today last. A chat used on several days
+ * counts once, on its last one: the summaries carry no per-day history, and the chart's caption says so.
+ * @param {ChatSummary[]} list @param {number} now @param {number} [days] @returns {number[]}
+ */
+export function activityByDay(list, now, days = 14) {
+  const out = new Array(days).fill(0);
+  const today = dayStart(now);
+  for (const s of list) {
+    const i = days - 1 - Math.round((today - dayStart(s.updatedAt)) / DAY_MS);   // round: a day is 23 or 25 h at a DST change
+    if (i >= 0 && i < days) out[i]++;
+  }
+  return out;
+}
+/** Non-archived chats: all of them, and those active in the last 7 days. @param {ChatSummary[]} list @param {number} now */
+export function chatVolume(list, now) {
+  let total = 0, recent = 0;
+  for (const s of list) {
+    if (s.archived) continue;
+    total++;
+    if (now - s.updatedAt < 7 * DAY_MS) recent++;
+  }
+  return { total, recent };
+}
+
 // ------------------------------------------------------------------ computed signals
 export const chatList = computed(() => [...chats.value.values()]);
-/** The sidebar's « À traiter » (hidden accounts and, unless shown, other origins left out): the rail and Alt+A use it too. */
-export const attention = computed(() => {
+/** What the sidebar lists: hidden accounts and, unless shown, other origins left out. */
+export const visibleChats = computed(() => {
   const hidden = new Set(accounts.value.filter((a) => a.hidden).map((a) => a.id));
   const showOther = settings.value?.showOtherOrigins ?? true;
-  return attentionList(chatList.value.filter((s) => !hidden.has(s.accountId) && (showOther || s.origin !== 'other')), serverNow());
+  return chatList.value.filter((s) => !hidden.has(s.accountId) && (showOther || s.origin !== 'other'));
 });
+/** The sidebar's « À traiter »: the rail, Alt+A and the dashboard use it too. */
+export const attention = computed(() => attentionList(visibleChats.value, serverNow()));
 export const windowCounts = computed(() => counts(chatList.value, serverNow()));
 export const asksByChat = computed(() => {
   /** @type {Map<string, PendingAsk[]>} */

@@ -10,6 +10,7 @@ import { inTextField } from '../../lib/keymap.js';
 import { DiffView, opsToHunks } from '../chat/DiffView.js';
 import { askSubject, canEditBefore, cycleScope, editTexts, editedInput, isEditAsk, permissionKey, permReasonKey, previewStats, SCOPE_KEYS } from './logic.js';
 import { CardFrame, Kbd, useDecide } from './Card.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').PendingAsk} PendingAsk */
 /** @typedef {import('./logic.js').Scope} Scope */
@@ -88,11 +89,11 @@ export function PermissionCard({ chatId, ask, index, total, autoFocus }) {
         : ask.offerAlways ? html`<span class="d-scope">
           <button type="button" class="d-btn" onClick=${always} title=${t('perm.rule', { 'règle': rule })}
             aria-label=${`${t('perm.always')} ${rule} ${scopeLabel}`}><${Kbd} k="2" />${t('perm.always')} · ${scopeLabel}</button>
-          <button type="button" class="d-icon" aria-label=${t('perm.scope.prev')} title=${t('perm.scope.prev')} onClick=${() => setScope(cycleScope(scope, -1))}>◂</button>
-          <button type="button" class="d-icon" aria-label=${t('perm.scope.next')} title=${t('perm.scope.next')} onClick=${() => setScope(cycleScope(scope, 1))}>▸</button></span>` : null}
+          <button type="button" class="d-icon" aria-label=${t('perm.scope.prev')} title=${t('perm.scope.prev')} onClick=${() => setScope(cycleScope(scope, -1))}><${Icon} n="chevron-left" size=${14} /></button>
+          <button type="button" class="d-icon" aria-label=${t('perm.scope.next')} title=${t('perm.scope.next')} onClick=${() => setScope(cycleScope(scope, 1))}><${Icon} n="chevron-right" size=${14} /></button></span>` : null}
       <button type="button" class="d-btn" onClick=${() => setMode('deny')}><${Kbd} k="3" />${t('perm.deny')}</button>
       ${canEdit ? html`<button type="button" class="d-btn" onClick=${() => setMode('edit')}><${Kbd} k="E" />${t('perm.editBefore')}</button>` : null}
-      ${ask.offerAuto ? html`<button type="button" class="d-btn d-more" onClick=${() => decide({ kind: 'allow-and-auto' })}>⋯ ${t('perm.switchAuto')}</button>` : null}
+      ${ask.offerAuto ? html`<button type="button" class="d-btn d-more" onClick=${() => decide({ kind: 'allow-and-auto' })}><${Icon} n="more" size=${14} /> ${t('perm.switchAuto')}</button>` : null}
       <button type="button" class="d-btn d-quiet" onClick=${denyStop}>${t('perm.denyStop')}</button>
     </div>
     ${mode === 'deny' || mode === 'comment' ? html`<label class="d-field">

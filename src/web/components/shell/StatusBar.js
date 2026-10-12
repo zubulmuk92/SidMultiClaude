@@ -1,5 +1,5 @@
 // @ts-check
-// src/web/components/shell/StatusBar.js — 22 px status bar (ux §3.2): « n processus actifs ≈ x Go (max N) » (click: process
+// src/web/components/shell/StatusBar.js — 26 px status bar (ux §3.2): « n processus actifs ≈ x Go (max N) » (click: process
 // list with *Mettre en veille*) · server connection · view mode · theme.
 import { html } from 'htm/preact';
 import { useState } from 'preact/hooks';

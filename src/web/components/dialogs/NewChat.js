@@ -14,6 +14,7 @@ import { Modal } from '../shell/common.js';
 import { DirBrowser } from './DirBrowser.js';
 import { Trust } from './Trust.js';
 import { baseName } from '../../lib/fmt.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').PermissionModeId} Mode */
 /** @typedef {import('../../../shared/protocol.ts').Effort} Effort */
@@ -116,8 +117,8 @@ export function NewChat(props) {
   if (step === 'trust') return html`<${Trust} path=${cwd.trim()} onAnswer=${(/** @type {boolean} */ ok) => { setStep('form'); if (ok) void submit(sendAfter, true); }} />`;
   return html`<${Modal} title=${t('new.title')} onClose=${closeOverlay} wide=${true} cls="newchat"
       footer=${html`<span class="muted foot-note">${t('new.ram')}</span>
-        <button type="button" class="btn" disabled=${busy} onClick=${() => void submit(false)}>${t('new.createEmpty')} <kbd>Ctrl+⏎</kbd></button>
-        <button type="button" class="btn primary" disabled=${busy || !prompt.trim()} onClick=${() => void submit(true)}>${t('new.create')} <kbd>⏎</kbd></button>`}>
+        <button type="button" class="btn" disabled=${busy} onClick=${() => void submit(false)}>${t('new.createEmpty')} <kbd>Ctrl+Entrée</kbd></button>
+        <button type="button" class="btn primary" disabled=${busy || !prompt.trim()} onClick=${() => void submit(true)}>${t('new.create')} <kbd>Entrée</kbd></button>`}>
     <div class="form" onKeyDown=${onKey}>
       <fieldset class="field-row"><legend>${t('new.account')}</legend>
         <div class="acc-choices" role="radiogroup">${accts.map((x, i) => html`<label key=${x.id} class=${`acc-choice acc-${x.color} ${x.id === acc ? 'on' : ''}`}>

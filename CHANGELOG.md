@@ -2,6 +2,24 @@
 
 Ce fichier suit le format [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) et le projet respecte le [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [Non publié]
+
+### Ajouté
+
+- **Tableau de bord** : vue d’accueil du volet vide (et dialogue depuis le nom de l’application ou `Ctrl+K`) avec quatre chiffres clés, une carte par compte (jauges d’usage, chats par jour de dernière activité sur 14 jours), les chats à traiter et les plus récents. Calculé à partir des données déjà reçues par la fenêtre : aucune requête, aucun token.
+
+### Modifié
+
+- **Nouvelle présentation de l’interface**, en thème clair et sombre : volets en feuilles arrondies sur un fond teinté, barre latérale et onglets allégés, texte des conversations limité à une largeur de lecture, dialogues et menus redessinés.
+- **Icônes vectorielles partout** à la place des emojis et des pictogrammes texte (cloche, réglages, états des chats, étoile, dossiers, flèches de menu…) : un seul jeu d’icônes au trait, qui suit la couleur du texte et le thème. Les raccourcis s’écrivent en toutes lettres (« Entrée »).
+- **La couleur du compte devient le fil conducteur** : bulle de vos messages, bouton *Envoyer*, contour du volet actif et de la zone de saisie.
+- Lignes de la barre latérale un peu plus hautes (30 px, 44 px en densité confortable) ; libellés de section et noms de compte sans majuscules forcées.
+
+### Corrigé
+
+- Une palette `/` ou `@` qui s’ouvre sous le pointeur immobile ne change plus la sélection faite au clavier.
+- Les pastilles de compte restent lisibles en thème sombre.
+
 ## [0.1.0] - 2026-10-12
 
 Première version publique.

@@ -9,6 +9,7 @@ import { activityText } from '../../derived.js';
 import { actions, copyText, deleteChat, openChat, openTerminal, setFlags } from '../../actions.js';
 import { openOverlay as openChatOverlay } from '../side/overlays.js';
 import { Glyph } from './common.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').ChatSummary} ChatSummary */
 /** @typedef {import('./common.js').MenuItem} MenuItem */
@@ -18,7 +19,7 @@ export function chatMenuItems(s, rename) {
   const c = s.chatId;
   const live = s.state.flags.live;
   return [
-    { label: t('shell.row.openPane'), run: () => openChat(c, 'newPane'), hint: 'Ctrl+⏎' },
+    { label: t('shell.row.openPane'), run: () => openChat(c, 'newPane'), hint: 'Ctrl+Entrée' },
     { label: t('menu.terminal'), run: () => { void openTerminal(c, false).catch(() => {}); } },
     { label: t('header.rename'), run: () => rename?.(c), hint: 'F2', disabled: !rename || Boolean(s.state.flags.external) },
     { label: t(s.pinned ? 'chat.unpin' : 'chat.pin'), run: () => { void setFlags(c, { pinned: !s.pinned }).catch(() => {}); } },
@@ -48,7 +49,7 @@ export function ChatRow({ s, reason, depth, focused, active, editing, onRenameDo
   const meta = running || needs ? fmtTimer(serverNow() - (needs ? (st.pending.oldestAt ?? st.since) : st.since)) : (s.updatedAt ? fmtAge(s.updatedAt, tnow) : '');
   const title = s.title || t('state.new');
   const ext = st.flags.external;
-  const second = reason ?? [baseName(s.cwd), s.branch ? `⎇ ${s.branch}` : '', activityText(s)].filter(Boolean).join(' · ');
+  const second = reason ?? [baseName(s.cwd), s.branch ?? '', activityText(s)].filter(Boolean).join(' · ');
   return html`<div role="treeitem" id=${`row-${idx}`} aria-level=${depth + 1} aria-selected=${active ? 'true' : 'false'}
       tabindex=${focused ? 0 : -1} data-chat=${s.chatId} data-idx=${idx}
       class=${`row chat-row depth-${depth} acc-${a?.color ?? 8} ${st.flags.unread ? 'unread' : ''} ${st.phase === 'cold' ? 'is-cold' : ''} ${active ? 'active' : ''} ${reason ? 'with-reason' : ''}`}
@@ -68,19 +69,19 @@ export function ChatRow({ s, reason, depth, focused, active, editing, onRenameDo
       <span class="row-sub">${second}</span>
     </span>
     <span class="row-flags">
-      ${ext ? html`<span class="flag" title=${t(`state.external.${ext.status}`)}>⌨</span>` : null}
-      ${s.expiresInDays !== null && s.expiresInDays <= 5 ? html`<span class="flag" title=${t('flag.expiring', { n: s.expiresInDays })}>⌛</span>` : null}
-      ${s.foreignOwner ? html`<span class="flag" title=${t('flag.foreignOwner')}>⇄</span>` : null}
-      ${st.flags.bgTasks ? html`<span class="flag" title=${t('shell.row.bg', { n: st.flags.bgTasks })}>⚙${st.flags.bgTasks}</span>` : null}
-      ${st.flags.queued ? html`<span class="flag" title=${t('shell.row.queued', { n: st.flags.queued })}>≡${st.flags.queued}</span>` : null}
+      ${ext ? html`<span class="flag" title=${t(`state.external.${ext.status}`)}><${Icon} n="terminal" size=${13} /></span>` : null}
+      ${s.expiresInDays !== null && s.expiresInDays <= 5 ? html`<span class="flag" title=${t('flag.expiring', { n: s.expiresInDays })}><${Icon} n="hourglass" size=${13} /></span>` : null}
+      ${s.foreignOwner ? html`<span class="flag" title=${t('flag.foreignOwner')}><${Icon} n="swap" size=${13} /></span>` : null}
+      ${st.flags.bgTasks ? html`<span class="flag" title=${t('shell.row.bg', { n: st.flags.bgTasks })}><${Icon} n="settings" size=${12} />${st.flags.bgTasks}</span>` : null}
+      ${st.flags.queued ? html`<span class="flag" title=${t('shell.row.queued', { n: st.flags.queued })}><${Icon} n="list" size=${12} />${st.flags.queued}</span>` : null}
     </span>
     <span class="row-meta">${meta}</span>
     ${st.flags.unread ? html`<span class="dot" aria-hidden="true"></span>` : null}
     <span class="row-hover">
       <button type="button" class="icon-btn sm" tabindex="-1" aria-label=${t(s.pinned ? 'chat.unpin' : 'chat.pin')}
-        onClick=${(/** @type {MouseEvent} */ e) => { e.stopPropagation(); void setFlags(s.chatId, { pinned: !s.pinned }).catch(() => {}); }}>${s.pinned ? '★' : '☆'}</button>
+        onClick=${(/** @type {MouseEvent} */ e) => { e.stopPropagation(); void setFlags(s.chatId, { pinned: !s.pinned }).catch(() => {}); }}><${Icon} n=${s.pinned ? 'star-fill' : 'star'} size=${14} /></button>
       <button type="button" class="icon-btn sm" tabindex="-1" aria-label=${t('shell.row.menu')}
-        onClick=${(/** @type {MouseEvent} */ e) => { e.stopPropagation(); onMenu(e, s); }}>⋯</button>
+        onClick=${(/** @type {MouseEvent} */ e) => { e.stopPropagation(); onMenu(e, s); }}><${Icon} n="more" /></button>
     </span>
   </div>`;
 }

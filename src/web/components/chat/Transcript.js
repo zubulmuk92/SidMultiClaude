@@ -13,6 +13,7 @@ import { act, chatUi, getEnv, useChatVM, viewModeOf } from './env.js';
 import { LIMITS, UI } from './consts.js';
 import { mountWindow, nearBottom } from './model.js';
 import { Turn } from './Turn.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').SearchHit} SearchHit */
 /** @typedef {{ id: string; offset: number; first: string | null; win: string; at: number; force?: boolean }} Restore */
@@ -262,7 +263,7 @@ export function Transcript({ chatId }) {
       </div>
       ${below ? html`<div class="t-spacer t-spacer-end" style=${{ height: `${below}px` }}></div>` : null}
     </div>
-    ${unseen ? html`<button type="button" class="t-pill" onClick=${goBottom}>${t('sys.newMessages', { n: unseen })}</button>` : null}
+    ${unseen ? html`<button type="button" class="t-pill" onClick=${goBottom}><${Icon} n="arrow-down" size=${14} /> ${t('sys.newMessages', { n: unseen })}</button>` : null}
   </div>`;
 }
 
@@ -292,6 +293,6 @@ function SearchBar({ chatId, onHit, onClose }) {
     <input ref=${input} type="search" placeholder=${t('chat.search.placeholder')} aria-label=${t('chat.search.placeholder')} value=${q}
       onInput=${(/** @type {any} */ e) => { setQ(e.currentTarget.value); setHits(null); }} onKeyDown=${key} />
     <span class="t-search-n" role="status">${hits ? (hits.length ? t('chat.search.count', { i: i + 1, n: hits.length }) : t('chat.search.none')) : ''}</span>
-    <button type="button" class="c-icon" aria-label=${t('chat.search.close')} onClick=${onClose}>✕</button>
+    <button type="button" class="c-icon" aria-label=${t('chat.search.close')} onClick=${onClose}><${Icon} n="x" /></button>
   </div>`;
 }

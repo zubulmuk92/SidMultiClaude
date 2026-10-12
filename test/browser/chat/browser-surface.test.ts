@@ -116,7 +116,7 @@ test('transcript: at most 150 mounted turns, a spacer for the rest; new turns wh
   await sc.evaluate((el) => { el.scrollTop = 0; el.dispatchEvent(new Event('scroll')); });
   await apply([turn('u:new', 'nouveau'), block('u:new', { k: 'text', id: 'a:new:0', md: 'arrivé' })]);
   await page().waitForSelector('.t-pill');
-  assert.equal(await page().textContent('.t-pill'), '↓ Nouveaux messages (1)');
+  assert.equal((await page().textContent('.t-pill'))?.trim(), 'Nouveaux messages (1)');
   await page().click('.t-pill');
   await page().waitForFunction(() => { const el = document.querySelector('.t-scroll')!; return el.scrollHeight - el.scrollTop - el.clientHeight <= 48; });
 });

@@ -11,7 +11,7 @@ const OUT = path.resolve(import.meta.dirname, '..', 'docs', 'images');
 fs.mkdirSync(OUT, { recursive: true });
 const shot = (name: string) => path.join(OUT, `${name}.png`);
 
-const m = await startMockServer({ chats: 14 });
+const m = await startMockServer({ chats: 40 });
 const chatIdOf = (title: string): string => [...m.world.chats.values()].find((s: { title: string }) => s.title === title).chatId;
 let n = 0;
 const turn = (text: string, md: string) => {
@@ -21,6 +21,9 @@ const turn = (text: string, md: string) => {
     blocks: [{ k: 'user', id: `u:${uuid}`, msg: user }, { k: 'text', id: `a:msg_${n}:0`, md }],
     footer: { input: 12, cacheRead: 37_274, cacheWrite: 2_203, output: 180, models: ['claude-test'] } };
 };
+// last activity spread over two weeks (the mock world is all « today »), and a second usage window, for the dashboard
+[...m.world.chats.values()].forEach((s: { updatedAt: number }, i: number) => { if (i > 5) s.updatedAt = Date.now() - Math.round((i * i * 0.2 + (i % 5)) * 3_600_000); });
+m.world.accounts[0].usage.rows.push({ key: 'seven_day', label: 'Semaine', pct: 71, severity: 'warning', headline: false, resetsAt: Date.now() + 3 * 86_400_000 });
 const LEFT = chatIdOf('Refacto auth'), RIGHT = chatIdOf('Revue PR');   // one chat per account
 m.world.turns = new Map([
   [LEFT, [
@@ -42,13 +45,18 @@ m.world.turns = new Map([
   ]],
 ]);
 
-const { browser, context } = await openBrowser(m.origin, { viewport: { width: 1000, height: 700 } });
+const { browser, context } = await openBrowser(m.origin, { viewport: { width: 1400, height: 900 } });
 try {
   const page = await context.newPage();
   await page.goto(m.url());
   await page.locator('.chat-row[data-chat]').first().waitFor();
   const settle = () => page.waitForTimeout(500);
 
+  await page.locator('.dash-tile').first().waitFor();  // no chat open yet: the home view
+  await settle();
+  await page.screenshot({ path: shot('tableau-de-bord') });
+
+  await page.setViewportSize({ width: 1000, height: 700 });
   await page.keyboard.press('Alt+a');                 // oldest pending request first
   await settle();
   await page.screenshot({ path: shot('a-traiter') });

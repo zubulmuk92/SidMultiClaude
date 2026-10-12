@@ -158,3 +158,12 @@ test('a cold limit already reset (stale transcript tail) leaves « À traiter »
     filter: '', collapsed: new Set(), expanded: new Set(), asks: [], now });
   assert.equal(rows.some((r: any) => r.key === 'sec:att'), false);
 });
+
+test('dashboard: chats per local day of last activity (today last, older ones dropped), and the 7-day volume without archives', () => {
+  const noon = new Date(2026, 9, 12, 12, 0, 0).getTime(), H = 3_600_000, D = 24 * H;
+  const at = (n: number, updatedAt: number, o: Record<string, unknown> = {}) => summary(n, { updatedAt, ...o });
+  const list = [at(1, noon - H), at(2, noon - 11 * H), at(3, noon - 13 * H), at(4, noon - 3 * D), at(5, noon - 13 * D), at(6, noon - 14 * D), at(7, noon - 2 * D, { archived: true })];
+  assert.deepEqual(d.activityByDay(list, noon, 14), [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2], '13 h ago is yesterday; 14 days ago is out');
+  assert.deepEqual(d.activityByDay([], noon, 3), [0, 0, 0]);
+  assert.deepEqual(d.chatVolume(list, noon), { total: 6, recent: 4 });
+});

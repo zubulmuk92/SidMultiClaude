@@ -9,6 +9,7 @@ import { act, getEnv, useChatVM } from './env.js';
 import { LIMITS } from './consts.js';
 import { Markdown } from './Blocks.js';
 import { PendingDock } from '../dock/PendingDock.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').UiTurn} UiTurn */
 
@@ -50,8 +51,8 @@ export function Peek({ chatId, onClose }) {
   };
   return html`<div ref=${root} class="pk-peek" role="dialog" aria-label=${t('peek.title', { titre: sum.title })} tabindex="-1" onKeyDownCapture=${onKeyCapture} onKeyDown=${onKey}>
     <header class="pk-head"><strong>${t('peek.title', { titre: sum.title })}</strong>
-      <button type="button" class="d-btn" onClick=${() => { onClose(); act().openChat(chatId, 'focused'); }}>${t('peek.open')} ⏎</button>
-      <button type="button" class="c-icon" aria-label=${t('lightbox.close')} onClick=${onClose}>✕</button></header>
+      <button type="button" class="d-btn" onClick=${() => { onClose(); act().openChat(chatId, 'focused'); }}>${t('peek.open')} <${Icon} n="enter" size=${14} /></button>
+      <button type="button" class="c-icon" aria-label=${t('lightbox.close')} onClick=${onClose}><${Icon} n="x" /></button></header>
     <div class="pk-body">
       ${turns === null ? html`<p>${t('chat.loading')}</p>` : !ex.length ? html`<p>${t('chat.empty')}</p>` : ex.map((x) => html`<div class="pk-ex" key=${x.id}>
         ${x.user !== null ? html`<div class="c-user"><div class="c-user-label">${t('a11y.you')} · <time>${fmtTime(x.at)}</time></div><div class="c-user-text">${x.user}</div></div>` : null}

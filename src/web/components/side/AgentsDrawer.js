@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { t, fmtClock, fmtTokens } from '../chat/text.js';
 import { act, chatUi, useChatVM } from '../chat/env.js';
 import { useNow } from '../dock/Card.js';
+import { GlyphIcon, Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').TaskView} TaskView */
 
@@ -36,18 +37,18 @@ export function AgentsDrawer({ chatId }) {
   };
   /** @param {TaskView} x */
   const row = (x) => html`<li key=${x.id} class=${'s-task s-' + x.status} style=${{ paddingInlineStart: `${(x.depth ?? 0) * 14}px` }}>
-    <span class="s-task-main"><span aria-hidden="true">${x.status === 'running' ? '◐' : x.status === 'done' ? '✓' : x.status === 'failed' ? '✕' : '■'}</span>
+    <span class="s-task-main"><span aria-hidden="true"><${GlyphIcon} g=${x.status === 'running' ? '◐' : x.status === 'done' ? '✓' : x.status === 'failed' ? '✕' : '■'} size=${13} /></span>
       ${x.title}${x.background ? html` <span class="c-badge">${t('tool.bash.bg')}</span>` : null}</span>
     <span class="s-task-line">${taskLine(x, now)}</span>
     ${x.kind !== 'agent' && x.toolUseId ? html`<button type="button" class="c-mini" onClick=${() => output(x)}>${t('agents.output')}</button>` : null}
-    ${x.status === 'running' ? html`<button type="button" class="c-icon" aria-label=${t('agents.stop') + ' ' + x.title} onClick=${() => { void act().task(chatId, 'stop', x.id).catch(() => {}); }}>■</button>` : null}
+    ${x.status === 'running' ? html`<button type="button" class="c-icon" aria-label=${t('agents.stop') + ' ' + x.title} onClick=${() => { void act().task(chatId, 'stop', x.id).catch(() => {}); }}><${Icon} n="stop-fill" size=${12} /></button>` : null}
     ${out[x.id] !== undefined ? html`<pre class="c-out">${out[x.id]}</pre>` : null}
   </li>`;
   return html`<aside ref=${root} class="s-drawer" tabindex="-1" aria-label=${t('agents.title')}
       onKeyDown=${(/** @type {KeyboardEvent} */ e) => { if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); u.drawer.value = false; } }}>
     <header class="s-drawer-head"><h2>${t('agents.title')}</h2>
       <button type="button" class="d-btn" disabled=${!running} onClick=${() => setConfirm(true)}>${t('agents.stopAll')}</button>
-      <button type="button" class="c-icon" aria-label=${t('agents.close')} onClick=${() => { u.drawer.value = false; }}>✕</button></header>
+      <button type="button" class="c-icon" aria-label=${t('agents.close')} onClick=${() => { u.drawer.value = false; }}><${Icon} n="x" /></button></header>
     ${confirm ? html`<div class="s-confirm" role="alertdialog">${t('agents.stopAll.confirm', { n: running })}
       <button type="button" class="d-btn d-danger" onClick=${() => { setConfirm(false); void act().task(chatId, 'stopAll').catch(() => {}); }}>${t('agents.stopAll')}</button>
       <button type="button" class="d-btn d-quiet" onClick=${() => setConfirm(false)}>${t('cap.cancel')}</button></div>` : null}

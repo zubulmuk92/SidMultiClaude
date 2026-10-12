@@ -1,6 +1,6 @@
 // @ts-check
 // src/web/components/shell/TabStrip.js — the working set of open chats (ux §3.4, role="tablist"): glyph · account bar +
-// monogram · title · pane badge ①②③④ · ×. Click shows the chat in the focused pane (or focuses the pane that already
+// monogram · title · pane number · close. Click shows the chat in the focused pane (or focuses the pane that already
 // shows it); middle-click closes; drag to reorder or drop on a pane; overflow ⌄ lists every tab. Closing a tab never
 // stops Claude.
 import { html } from 'htm/preact';
@@ -9,8 +9,8 @@ import { accountById, chats, placeholderSummary, ui } from '../../store.js';
 import { closeTab, moveTab, openChat, openOverlay } from '../../actions.js';
 import { chatMenuItems } from './ChatRow.js';
 import { Glyph, openMenu, openMenuAt } from './common.js';
+import { Icon } from '../../lib/icons.js';
 
-const BADGES = ['①', '②', '③', '④'];
 export const TAB_MIME = 'application/x-smc-chat';
 
 export function TabStrip() {
@@ -48,13 +48,13 @@ export function TabStrip() {
           <${Glyph} s=${s} />
           <span class="tab-bar" aria-hidden="true"></span><span class="tab-mono" aria-hidden="true">${a?.monogram ?? ''}</span>
           <span class="tab-title">${s.title || t('state.new')}</span>
-          ${pane >= 0 && u.layout > 1 ? html`<span class="tab-pane" title=${t('shell.tabs.inPane', { n: pane + 1 })}>${BADGES[pane]}</span>` : null}
+          ${pane >= 0 && u.layout > 1 ? html`<span class="tab-pane" title=${t('shell.tabs.inPane', { n: pane + 1 })}>${pane + 1}</span>` : null}
           <button type="button" class="tab-x" tabindex="-1" aria-label=${t('tabs.close')} title=${`${t('tabs.close')} (Alt+W)`}
-            onClick=${(/** @type {MouseEvent} */ e) => { e.stopPropagation(); closeTab(c); }}>×</button>
+            onClick=${(/** @type {MouseEvent} */ e) => { e.stopPropagation(); closeTab(c); }}><${Icon} n="x" size=${12} /></button>
         </div>`;
       })}
     </div>
-    ${u.tabs.length > 1 ? html`<button type="button" class="icon-btn" aria-label=${t('shell.tabs.more')} aria-haspopup="menu" onClick=${overflow}>⌄</button>` : null}
-    <button type="button" class="icon-btn" aria-label=${t('shell.tabs.new')} title=${t('shell.tabs.new')} onClick=${() => openOverlay('newChat')}>+</button>
+    ${u.tabs.length > 1 ? html`<button type="button" class="icon-btn" aria-label=${t('shell.tabs.more')} aria-haspopup="menu" onClick=${overflow}><${Icon} n="chevron-down" /></button>` : null}
+    <button type="button" class="icon-btn" aria-label=${t('shell.tabs.new')} title=${t('shell.tabs.new')} onClick=${() => openOverlay('newChat')}><${Icon} n="plus" /></button>
   </div>`;
 }

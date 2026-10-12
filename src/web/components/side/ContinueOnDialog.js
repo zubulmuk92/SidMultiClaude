@@ -9,6 +9,7 @@ import { t, fmtTokens } from '../chat/text.js';
 import { act, getEnv, useChatVM, accountOf } from '../chat/env.js';
 import { closeOverlay } from './overlays.js';
 import { Modal } from './Popovers.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').AccountView} AccountView */
 
@@ -39,7 +40,7 @@ export function ContinueOnDialog({ chatId, target }) {
   };
   const footer = html`<button type="button" class="d-btn d-quiet" onClick=${closeOverlay}>${t('cap.cancel')}</button>
     <button type="button" class="d-btn d-primary" disabled=${!acc || acc.login !== 'connected' || busy} onClick=${go}>
-      ${t('cont.ok', { compte: acc?.name ?? '…' })} ⏎</button>`;
+      ${t('cont.ok', { compte: acc?.name ?? '…' })} <${Icon} n="enter" size=${14} /></button>`;
   /** @param {KeyboardEvent} e */
   const onKey = (e) => { if (e.key === 'Enter' && !(e.target instanceof HTMLButtonElement)) { void go(); return true; } return false; };
   return html`<${Modal} title=${t('cont.title')} onClose=${closeOverlay} onKey=${onKey} cls="s-continue" footer=${footer}>

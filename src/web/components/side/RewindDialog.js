@@ -9,6 +9,7 @@ import { act, setDraftText, useChatVM } from '../chat/env.js';
 import { userPrompts } from '../chat/model.js';
 import { closeOverlay } from './overlays.js';
 import { Modal } from './Popovers.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').RewindPreview} RewindPreview */
 /** @typedef {'both' | 'conv' | 'code' | 'fork'} RewindAction */
@@ -60,7 +61,7 @@ export function RewindDialog({ chatId, uuid }) {
   };
   const totals = sim ? sim.files.reduce((s, f) => ({ a: s.a + f.added, d: s.d + f.removed }), { a: 0, d: 0 }) : null;
   const footer = html`<button type="button" class="d-btn d-quiet" onClick=${closeOverlay}>${t('cap.cancel')}</button>
-    <button type="button" class="d-btn d-primary" disabled=${!cur || busy} onClick=${go}>${t('rewind.ok')} ⏎</button>`;
+    <button type="button" class="d-btn d-primary" disabled=${!cur || busy} onClick=${go}>${t('rewind.ok')} <${Icon} n="enter" size=${14} /></button>`;
   return html`<${Modal} title=${t('rewind.title')} onClose=${closeOverlay} onKey=${onKey} cls="s-rewind" footer=${footer}>
     <p class="s-hint">${t('rewind.hint')}</p>
     ${!prompts.length ? html`<p>${t('rewind.none')}</p>` : html`<ul class="s-points" role="listbox" aria-label=${t('rewind.title')}>

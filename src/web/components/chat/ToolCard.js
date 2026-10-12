@@ -10,6 +10,7 @@ import { groupMustOpen, groupSummary, toolKind } from './model.js';
 import { toolSummary, toolCode, denialText, ToolBody } from './ToolRenderers.js';
 import { ErrorBoundary } from './ErrorBoundary.js';
 import { useBlock } from './Blocks.js';
+import { GlyphIcon, Icon } from '../../lib/icons.js';
 
 /** @typedef {Extract<import('../../../shared/protocol.ts').UiBlock, { k: 'tool' }>} ToolBlock */
 
@@ -36,7 +37,7 @@ function ToolCardInner({ chatId, block, expanded }) {
   return html`<div class=${cls} data-block=${b.id} role="group" aria-label=${t('a11y.claude') + ', ' + b.name}>
     <div class="c-tool-line">
       <button type="button" class="c-disclosure" aria-expanded=${open} onClick=${() => { touched.current = true; setOpen(!open); }}>
-        <span class="c-glyph" aria-hidden="true">${GLYPH[b.status] ?? '·'}</span>
+        <span class="c-glyph" aria-hidden="true"><${GlyphIcon} g=${GLYPH[b.status] ?? '·'} size=${13} /></span>
         <span class="c-tool-sum">${err ? t('tool.error', { outil: b.name }) + ' · ' : ''}${toolSummary(b)}</span>
         ${b.input.fields['replace_all'] === true ? html`<span class="c-badge">replace_all</span>` : null}
         ${b.agentId ? html`<span class="c-badge">${b.agentId}</span>` : null}
@@ -44,7 +45,7 @@ function ToolCardInner({ chatId, block, expanded }) {
       ${denial ? html`<span class="c-denial">${denial}</span>` : null}
       ${b.status === 'asking' ? html`<span class="c-ask-anchor">${t('chat.askAnchor')}</span>` : null}
       ${canBg ? html`<button type="button" class="c-mini" onClick=${() => { void act().task(chatId, 'background', b.toolUseId).catch(() => {}); }}>${t('tool.bash.toBg')}</button>` : null}
-      ${canStop ? html`<button type="button" class="c-mini" onClick=${() => { void act().task(chatId, 'stop', b.taskId).catch(() => {}); }}>■ ${t('agents.stop')}</button>` : null}
+      ${canStop ? html`<button type="button" class="c-mini" onClick=${() => { void act().task(chatId, 'stop', b.taskId).catch(() => {}); }}><${Icon} n="stop-fill" size=${12} /> ${t('agents.stop')}</button>` : null}
     </div>
     ${!open && code && (b.name === 'Bash' || b.name === 'PowerShell') ? html`<div class="c-cmd-line">${code}</div>` : null}
     ${err && !open && b.result?.summary ? html`<div class="c-err-line">${b.result.summary.split('\n')[0]}</div>` : null}
@@ -71,8 +72,8 @@ export function ToolGroup({ chatId, tools }) {
   const anyRun = live.some((b) => b.status === 'running' || b.status === 'asking');
   return html`<div class="c-group" data-group=${tools[0]?.id}>
     <button type="button" class="c-disclosure c-group-line" aria-expanded=${open} onClick=${() => setUserOpen(!open)}>
-      <span>${open ? '▾' : '▸'} ${groupSummary(live)}</span>
-      <span class="c-glyph" aria-hidden="true">${anyRun ? '◐' : anyErr ? '✕' : '✓'}</span>
+      <span><${Icon} n=${open ? 'chevron-down' : 'chevron-right'} size=${12} /> ${groupSummary(live)}</span>
+      <span class="c-glyph" aria-hidden="true"><${GlyphIcon} g=${anyRun ? '◐' : anyErr ? '✕' : '✓'} size=${13} /></span>
     </button>
     ${open ? html`<div class="c-group-body">${live.map((b) => html`<${ToolCard} key=${b.id} chatId=${chatId} block=${b} expanded=${toolKind(b.name) === 'command' && b.status === 'running'} />`)}</div>` : null}
   </div>`;

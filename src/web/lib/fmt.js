@@ -28,6 +28,8 @@ export function fmtMoney(usd) { return `${USD.format(usd)}${NBSP}$`; }
 export function fmtPct(pct) { return `${NF.format(Math.round(pct))}${NBSP}%`; }
 /** « 15:45 ». @param {number} at */
 export function fmtTime(at) { return HM.format(at); }
+/** « 9 oct. ». @param {number} at */
+export function fmtDate(at) { return DATE.format(at); }
 /** « 1,2 Mo », « 340 Ko ». @param {number} bytes */
 export function fmtBytes(bytes) {
   if (bytes >= 1024 ** 3) return `${NF1.format(bytes / 1024 ** 3)} Go`;

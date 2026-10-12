@@ -12,6 +12,7 @@ import { countChanges, patchToHunks } from '../../lib/diff.js';
 import { DiffView } from './DiffView.js';
 import { Markdown } from './Blocks.js';
 import { openLightbox } from '../side/Lightbox.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {Extract<import('../../../shared/protocol.ts').UiBlock, { k: 'tool' }>} ToolBlock */
 
@@ -132,7 +133,7 @@ export function ToolBody({ chatId, b }) {
     ${b.input.truncated?.length ? html`<${FullInput} chatId=${chatId} b=${b} />` : null}
     ${r?.denial ? html`<div class="c-denied">${r.summary}</div>` : html`<${Output} chatId=${chatId} b=${b} />`}
     ${r?.images?.length ? html`<div class="c-user-images">${r.images.map((im) => html`<button type="button" class="c-chip c-imgchip"
-      onClick=${() => openLightbox(chatId, im.ref, im.mediaType)}>🖼 ${im.mediaType}</button>`)}</div>` : null}
+      onClick=${() => openLightbox(chatId, im.ref, im.mediaType)}><${Icon} n="image" size=${14} /> ${im.mediaType}</button>`)}</div>` : null}
   </div>`;
 }
 

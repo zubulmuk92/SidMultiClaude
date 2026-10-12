@@ -6,6 +6,7 @@ import { html } from 'htm/preact';
 import { useEffect, useRef } from 'preact/hooks';
 import { t, tp } from '../chat/text.js';
 import { slashResults } from './logic.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').SlashCommandView} SlashCommandView */
 
@@ -16,6 +17,7 @@ export function slashRows(cmds, q) {
   return slashResults(cmds, q).flatMap((g) => g.items);
 }
 
+// Hover follows real pointer moves only: a palette that opens under a resting pointer must not steal the keyboard selection.
 /** @param {{ cmds: SlashCommandView[]; q: string; sel: number; onPick: (c: SlashCommandView) => void; onHover: (k: number) => void }} p */
 export function SlashPalette({ cmds, q, sel, onPick, onHover }) {
   const groups = slashResults(cmds, q);
@@ -27,10 +29,10 @@ export function SlashPalette({ cmds, q, sel, onPick, onHover }) {
       <div class="p-group">${tp('slash.groups', GROUP_INDEX[g.group])}</div>
       ${g.items.map((c) => { k++; const i = k; return html`<div role="option" id=${'p-slash-' + i} aria-selected=${i === sel}
           class=${'p-row' + (i === sel ? ' p-sel' : '')} onMouseDown=${(/** @type {MouseEvent} */ e) => { e.preventDefault(); onPick(c); }}
-          onMouseEnter=${() => onHover(i)}>
+          onMouseMove=${(/** @type {MouseEvent} */ e) => { if (e.movementX || e.movementY) onHover(i); }}>
         <span class="p-name">/${c.name}${c.hint ? html` <span class="p-hint">${c.hint}</span>` : null}</span>
         <span class="p-desc">${c.description}</span>
-        <span class=${'p-badge' + (c.local ? ' p-local' : ' p-model')}>${c.local ? t('slash.local') : t('slash.model')}</span>
+        <span class=${'p-badge' + (c.local ? ' p-local' : ' p-model')}>${c.local ? t('slash.local') : html`<${Icon} n="zap" size=${11} /> ${t('slash.model')}`}</span>
       </div>`; })}
     </div>`) : html`<div class="p-empty">${t('slash.empty')}</div>`}
   </div>`;

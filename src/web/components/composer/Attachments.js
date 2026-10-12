@@ -9,6 +9,7 @@ import { t, fmtTokens, fmtBytes } from '../chat/text.js';
 import { LIMITS } from '../chat/consts.js';
 import { imageTargets, imageTokens } from './logic.js';
 import { openOverlay } from '../side/overlays.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').ImageMediaType} ImageMediaType */
 /** @typedef {{ name: string; mediaType: ImageMediaType; base64: string }} Att */
@@ -93,6 +94,6 @@ export function Attachments({ chatId, items, onRemove }) {
         if (lab) lab.textContent = t('composer.image', { n: fmtTokens(imageTokens(im.naturalWidth, im.naturalHeight)) });
       }} /></button>
     <span class="a-tok">${a.name}</span>
-    <button type="button" class="c-icon" aria-label=${t('composer.remove')} onClick=${() => onRemove(k)}>✕</button>
+    <button type="button" class="c-icon" aria-label=${t('composer.remove')} onClick=${() => onRemove(k)}><${Icon} n="x" /></button>
   </span>`)}</div>`;
 }

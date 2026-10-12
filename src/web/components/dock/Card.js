@@ -5,6 +5,7 @@ import { html } from 'htm/preact';
 import { useEffect, useState } from 'preact/hooks';
 import { t, fmtDuration } from '../chat/text.js';
 import { act } from '../chat/env.js';
+import { GlyphIcon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').PendingAsk} PendingAsk */
 /** @typedef {import('../../../shared/protocol.ts').UiAnswer} UiAnswer */
@@ -53,7 +54,7 @@ export function CardFrame({ ask, icon, title, index, total, cls, full, busy, els
   return html`<div class=${'d-card ' + (cls ?? '') + (full ? ' d-full' : '') + (busy ? ' d-busy' : '')} role="group"
       aria-labelledby=${id} tabindex="-1" data-dock-card=${ask.requestId} data-chat=${ask.chatId} onKeyDown=${onKey}>
     <div class="d-card-head">
-      <span class="d-card-icon" aria-hidden="true">${icon}</span>
+      <span class="d-card-icon" aria-hidden="true"><${GlyphIcon} g=${icon} /></span>
       <strong id=${id} class="d-card-title">${title}</strong>
       ${tools ?? null}
       <span class="d-card-meta">${total > 1 ? t('perm.stack', { i: index + 1, n: total }) + ' · ' : ''}${wait}</span>

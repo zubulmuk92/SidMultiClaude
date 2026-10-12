@@ -11,6 +11,7 @@ import { act, useChatVM } from './env.js';
 import { UI } from './consts.js';
 import { userLabel } from './model.js';
 import { openLightbox } from '../side/Lightbox.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').UiBlock} UiBlock */
 /** @typedef {import('../../../shared/protocol.ts').ChatId} ChatId */
@@ -121,7 +122,7 @@ export function ThinkingBlock({ chatId, block, expanded }) {
     : t('chat.thinking.plain');                                     // the CLI sent neither text nor a token estimate
   return html`<div class="c-thinking" data-block=${b.id} aria-label=${t('a11y.thinking')}>
     <button type="button" class="c-disclosure" aria-expanded=${open} disabled=${b.live} onClick=${() => setOpen(!open)}>
-      ${label} ${b.live ? '' : open ? '▾' : '▸'}</button>
+      ${label} ${b.live ? null : html`<${Icon} n=${open ? 'chevron-down' : 'chevron-right'} size=${12} />`}</button>
     ${open && !b.live ? html`<div class="c-thinking-text">${err ? t('tool.detail.error') : text ?? t('chat.loading')}</div>` : null}
   </div>`;
 }
@@ -136,7 +137,7 @@ export function UserMessage({ chatId, msg, at, head }) {
     <div class="c-user-text">${msg.text}</div>
     ${msg.images?.length ? html`<div class="c-user-images">${msg.images.map((im, k) => html`
       <button type="button" class="c-chip c-imgchip" title=${im.approxTokens ? t('composer.image', { n: fmtTokens(im.approxTokens) }) : im.mediaType}
-        onClick=${() => openLightbox(chatId, im.ref, im.mediaType)}>🖼 ${t('tool.image', { taille: String(k + 1) })}</button>`)}</div>` : null}
+        onClick=${() => openLightbox(chatId, im.ref, im.mediaType)}><${Icon} n="image" size=${14} /> ${t('tool.image', { taille: String(k + 1) })}</button>`)}</div>` : null}
   </div>`;
 }
 

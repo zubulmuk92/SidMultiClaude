@@ -4,6 +4,7 @@
 import { html } from 'htm/preact';
 import { useEffect, useRef } from 'preact/hooks';
 import { t } from '../chat/text.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').FileHit} FileHit */
 
@@ -30,8 +31,8 @@ export function MentionPopup({ hits, q, sel, loading, onPick, onHover }) {
   return html`<div ref=${list} class="p-pop p-mention" role="listbox" id="p-mention" aria-label="@">
     ${hits.length ? hits.slice(0, 50).map((h, k) => html`<div role="option" id=${'p-mention-' + k} aria-selected=${k === sel}
         class=${'p-row' + (k === sel ? ' p-sel' : '')} onMouseDown=${(/** @type {MouseEvent} */ e) => { e.preventDefault(); onPick(h); }}
-        onMouseEnter=${() => onHover(k)}>
-      <span class="p-icon" aria-hidden="true">${h.dir ? '▸' : '·'}</span>
+        onMouseMove=${(/** @type {MouseEvent} */ e) => { if (e.movementX || e.movementY) onHover(k); }}>
+      <span class="p-icon" aria-hidden="true">${h.dir ? html`<${Icon} n="folder" size=${13} />` : null}</span>
       <span class="p-name">${markMatches(h.path.replace(/\\/g, '/') + (h.dir ? '/' : ''), q)}</span>
     </div>`) : html`<div class="p-empty">${loading ? t('chat.loading') : t('mention.empty')}</div>`}
   </div>`;

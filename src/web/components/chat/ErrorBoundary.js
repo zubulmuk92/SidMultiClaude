@@ -5,6 +5,7 @@ import { Component } from 'preact';
 import { html } from 'htm/preact';
 import { t } from './text.js';
 import { reportError } from './env.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {{ label?: string; chatId?: string; children?: import('preact').ComponentChildren }} Props */
 
@@ -19,7 +20,7 @@ export class ErrorBoundary extends Component {
     this.setState({ failed: true });
   }
   render() {
-    if (this.state.failed) return html`<div class="c-unreadable" role="note">⚠ ${t('chat.blockError')}</div>`;
+    if (this.state.failed) return html`<div class="c-unreadable" role="note"><${Icon} n="alert-triangle" size=${14} /> ${t('chat.blockError')}</div>`;
     return /** @type {import('preact').VNode} */ (/** @type {unknown} */ (this.props.children ?? null));
   }
 }

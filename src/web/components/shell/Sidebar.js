@@ -11,10 +11,11 @@ import { buildSidebar } from '../../derived.js';
 import { actions, openChat, openOverlay, patchSidebar, prefetch, setFlags, setSettings } from '../../actions.js';
 import { ChatRow, chatMenuItems } from './ChatRow.js';
 import { openMenu, openMenuAt } from './common.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../derived.js').SideRow} SideRow */
 /** Row heights in px (must match shell.css). */
-export const ROW_H = { section: 26, account: 32, folder: 26, more: 24, chat: 28, chat2: 40 };
+export const ROW_H = { section: 30, account: 36, folder: 28, more: 26, chat: 30, chat2: 44 };
 /** @param {SideRow} r @param {boolean} comfy */
 export const rowHeight = (r, comfy) => (r.kind === 'chat' ? (comfy || r.reason ? ROW_H.chat2 : ROW_H.chat) : ROW_H[r.kind]);
 
@@ -143,7 +144,7 @@ export function Sidebar() {
       <input class="side-filter" type="search" placeholder=${t('nav.filter')} aria-label=${t('nav.filter')} value=${filter}
         onInput=${(/** @type {InputEvent} */ e) => { setFilter(/** @type {HTMLInputElement} */ (e.target).value); setFocusIdx(0); }}
         onKeyDown=${(/** @type {KeyboardEvent} */ e) => { if (e.key === 'ArrowDown') { e.preventDefault(); focusRow(0); } else if (e.key === 'Escape' && filter) { e.preventDefault(); e.stopPropagation(); setFilter(''); } }} />
-      <button type="button" class="icon-btn" aria-label=${t('shell.side.menu')} aria-haspopup="menu" onClick=${groupingMenu}>⋯</button>
+      <button type="button" class="icon-btn" aria-label=${t('shell.side.menu')} aria-haspopup="menu" onClick=${groupingMenu}><${Icon} n="more" /></button>
     </div>
     <div ref=${listRef} class="side-list" role="tree" aria-label=${t('shell.side.label')} onKeyDown=${onKey}
       onFocusIn=${(/** @type {FocusEvent} */ e) => { const el = /** @type {HTMLElement | null} */ (/** @type {HTMLElement} */ (e.target).closest('[data-idx]')); if (el) setFocusIdx(Number(el.dataset['idx'])); }}
@@ -161,8 +162,8 @@ export function Sidebar() {
       </div>
     </div>
     <div class="side-foot">
-      <button type="button" class="side-btn" onClick=${() => openOverlay('newChat')}>+ ${t('nav.newChat')}<kbd>Alt+N</kbd></button>
-      <button type="button" class="side-btn" onClick=${() => openOverlay('resume')}>⟲ ${t('nav.resume')}<kbd>Alt+R</kbd></button>
+      <button type="button" class="side-btn" onClick=${() => openOverlay('newChat')}><span><${Icon} n="plus" size=${14} /> ${t('nav.newChat')}</span><kbd>Alt+N</kbd></button>
+      <button type="button" class="side-btn" onClick=${() => openOverlay('resume')}><span><${Icon} n="rotate" size=${14} /> ${t('nav.resume')}</span><kbd>Alt+R</kbd></button>
     </div>
     <div class="side-resize" role="separator" aria-orientation="vertical" aria-label=${t('shell.side.resize')} tabindex="0"
       aria-valuemin=${LIMITS.SIDEBAR_WIDTH_MIN_PX} aria-valuemax=${LIMITS.SIDEBAR_WIDTH_MAX_PX} aria-valuenow=${u.sidebar.width}
@@ -182,16 +183,16 @@ export function Sidebar() {
     if (r.kind === 'more') return html`<div key=${r.key} ...${common} role="treeitem" class=${`row more-row depth-${r.depth}`} onClick=${() => setExpanded(new Set([...expanded, r.group]))}>${t('nav.showMore', { n: r.n })}</div>`;
     if (r.kind === 'folder') {
       return html`<div key=${r.key} ...${common} role="treeitem" aria-expanded=${String(!r.collapsed)} class=${`row folder-row depth-${r.depth}`} title=${r.path}
-        onClick=${() => toggle(r.key.slice(2))}><span class="caret" aria-hidden="true">${r.collapsed ? '▸' : '▾'}</span><span class="row-title">${r.label}</span>${r.collapsed ? html`<span class="row-meta">(${r.count})</span>` : null}</div>`;
+        onClick=${() => toggle(r.key.slice(2))}><span class="caret" aria-hidden="true"><${Icon} n=${r.collapsed ? 'chevron-right' : 'chevron-down'} size=${12} /></span><span class="row-title">${r.label}</span>${r.collapsed ? html`<span class="row-meta">(${r.count})</span>` : null}</div>`;
     }
     const a = r.a;
     const login = a.login === 'connected' ? '' : t(a.login === 'disconnected' ? 'acc.notConnected' : a.login === 'reauth' ? 'acc.authError' : 'acc.incoherent');
     return html`<div key=${r.key} ...${common} role="treeitem" aria-level="1" aria-expanded=${String(!r.collapsed)} class=${`row acc-row acc-${a.color}`} onClick=${() => toggle(r.key)}>
-      <span class="caret" aria-hidden="true">${r.collapsed ? '▸' : '▾'}</span><span class=${`acc-badge acc-${a.color}`}>${a.monogram}</span>
-      <span class="row-title acc-name">${a.name.toUpperCase()}${a.identity?.plan ? html` <small>· ${a.identity.plan}</small>` : null}</span>
+      <span class="caret" aria-hidden="true"><${Icon} n=${r.collapsed ? 'chevron-right' : 'chevron-down'} size=${12} /></span><span class=${`acc-badge acc-${a.color}`}>${a.monogram}</span>
+      <span class="row-title acc-name">${a.name}${a.identity?.plan ? html` <small>· ${a.identity.plan}</small>` : null}</span>
       ${login ? html`<span class="acc-login">${login}</span>` : html`<${UsageBar} a=${a} />`}
       <button type="button" class="icon-btn sm" tabindex="-1" aria-label=${t('shell.side.newIn', { compte: a.name })}
-        onClick=${(/** @type {MouseEvent} */ e) => { e.stopPropagation(); openOverlay('newChat', { accountId: a.id }); }}>+</button></div>`;
+        onClick=${(/** @type {MouseEvent} */ e) => { e.stopPropagation(); openOverlay('newChat', { accountId: a.id }); }}><${Icon} n="plus" size=${14} /></button></div>`;
   }
 }
 

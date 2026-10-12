@@ -10,6 +10,7 @@ import { attachmentsOf } from '../composer/Attachments.js';
 import { recacheEstimate } from '../composer/logic.js';
 import { closeOverlay } from './overlays.js';
 import { Modal } from './Popovers.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').ImageInput} ImageInput */
 
@@ -38,7 +39,7 @@ export function WakeDialog({ chatId, text, images }) {
     return false;
   };
   const footer = html`<button type="button" class="d-btn d-quiet" onClick=${cancel}>${t('cap.cancel')}</button>
-    <button type="button" class="d-btn d-primary" onClick=${send}>${t('wake.send')} ⏎</button>`;
+    <button type="button" class="d-btn d-primary" onClick=${send}>${t('wake.send')} <${Icon} n="enter" size=${14} /></button>`;
   return html`<${Modal} title=${t('wake.title', { titre: sum.title })} onClose=${cancel} onKey=${onKey} cls="s-wake" footer=${footer}>
     <p>${t('wake.body', { 'durée': fmtDuration(w.idleMs), contexte: fmtTokens(w.lastContext) })}</p>
     <div role="radiogroup" aria-label=${t('wake.title', { titre: sum.title })}>

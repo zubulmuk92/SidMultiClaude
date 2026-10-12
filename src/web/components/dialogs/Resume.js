@@ -11,6 +11,7 @@ import { fuzzyScore } from '../../lib/fuzzy.js';
 import { accountById, accounts, chats, settings } from '../../store.js';
 import { actions, closeOverlay, openChat, openTerminal, peekTurns } from '../../actions.js';
 import { AccBadge, Glyph, Modal } from '../shell/common.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').ChatSummary} ChatSummary */
 /** @typedef {import('../../../shared/protocol.ts').UiTurn} UiTurn */
@@ -70,8 +71,8 @@ export function Resume() {
   const nowMs = Date.now();
   return html`<${Modal} title=${t('resume.title')} onClose=${closeOverlay} wide=${true} cls="resume"
       footer=${html`<button type="button" class="btn" disabled=${!cur} onClick=${() => cur && void openTerminal(cur.chatId, false).catch(() => {})}>${t('resume.openTerm')}</button>
-        <button type="button" class="btn" disabled=${!cur} onClick=${() => open(cur, true)}>${t('resume.openPane')} <kbd>Ctrl+⏎</kbd></button>
-        <button type="button" class="btn primary" disabled=${!cur} onClick=${() => open(cur, false)}>${t('resume.open')} <kbd>⏎</kbd></button>`}>
+        <button type="button" class="btn" disabled=${!cur} onClick=${() => open(cur, true)}>${t('resume.openPane')} <kbd>Ctrl+Entrée</kbd></button>
+        <button type="button" class="btn primary" disabled=${!cur} onClick=${() => open(cur, false)}>${t('resume.open')} <kbd>Entrée</kbd></button>`}>
     <div class="resume-wrap" onKeyDown=${onKey}>
       <div class="inline">
         <input type="search" class="grow" data-autofocus placeholder=${t('resume.search')} aria-label=${t('resume.search')} value=${q}
@@ -88,8 +89,8 @@ export function Resume() {
           <${Glyph} s=${s} /><${AccBadge} a=${accountById.value.get(s.accountId)} id=${s.accountId} />
           ${renaming === s.chatId ? html`<input class="row-edit grow" value=${s.title} ref=${(/** @type {HTMLInputElement | null} */ el) => { if (el && document.activeElement !== el) { el.focus(); el.select(); } }}
               onKeyDown=${(/** @type {KeyboardEvent} */ e) => { e.stopPropagation(); const v = /** @type {HTMLInputElement} */ (e.target).value; if (e.key === 'Enter') { setRenaming(null); if (v.trim()) void actions.rename(s.chatId, v).catch(() => {}); } else if (e.key === 'Escape') setRenaming(null); }} />`
-            : html`<span class="r-title">${s.title || t('state.new')}${s.foreignOwner ? html` <span class="flag" title=${t('flag.foreignOwner')}>⇄</span>` : null}${s.expiresInDays !== null && s.expiresInDays <= 5 ? html` <span class="flag">⌛ ${t('flag.expiring', { n: s.expiresInDays })}</span>` : null}${s.state.flags.external ? html` <span class="flag">⌨</span>` : null}</span>`}
-          <span class="r-dir" title=${s.cwd}>${baseName(s.cwd)}${s.branch ? ` ⎇ ${s.branch}` : ''}</span>
+            : html`<span class="r-title">${s.title || t('state.new')}${s.foreignOwner ? html` <span class="flag" title=${t('flag.foreignOwner')}><${Icon} n="swap" size=${13} /></span>` : null}${s.expiresInDays !== null && s.expiresInDays <= 5 ? html` <span class="flag"><${Icon} n="hourglass" size=${13} /> ${t('flag.expiring', { n: s.expiresInDays })}</span>` : null}${s.state.flags.external ? html` <span class="flag"><${Icon} n="terminal" size=${13} /></span>` : null}</span>`}
+          <span class="r-dir" title=${s.cwd}>${baseName(s.cwd)}${s.branch ? html` <${Icon} n="branch" size=${12} /> ${s.branch}` : ''}</span>
           <span class="r-age">${s.updatedAt ? fmtRel(s.updatedAt, nowMs) : ''}</span><span class="r-size">${s.size ? fmtBytes(s.size) : '—'}</span>
           <span class="r-origin">${originLabels[ORIGINS.indexOf(s.origin)] ?? s.origin}</span></li>`)}
       </ul>

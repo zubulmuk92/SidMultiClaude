@@ -11,6 +11,7 @@ import { ErrorBoundary } from './ErrorBoundary.js';
 import { AssistantText, ThinkingBlock, UserMessage } from './Blocks.js';
 import { ToolCard, ToolGroup } from './ToolCard.js';
 import { SystemRow, detailedOnly } from './SystemRow.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').UiTurn} UiTurn */
 /** @typedef {import('../../../shared/protocol.ts').UiBlock} UiBlock */
@@ -39,11 +40,11 @@ function TurnInner({ chatId, sig, view, hit }) {
     <div class="c-claude">
       ${items.map((it) => {
         if (it.kind === 'group') return html`<${ToolGroup} key=${it.id} chatId=${chatId} tools=${it.tools} />`;
-        if (it.kind === 'folded') return html`<div key=${it.id} class="c-folded">${t('chat.folded', { n: it.count })}</div>`;
+        if (it.kind === 'folded') return html`<div key=${it.id} class="c-folded"><${Icon} n="chevron-right" size=${12} /> ${t('chat.folded', { n: it.count })}</div>`;
         return html`<${BlockView} key=${it.block.id} chatId=${chatId} block=${it.block} view=${view} hit=${hit} />`;
       })}
     </div>
-    ${turn.footer ? html`<div class=${'c-footer' + (view === 'detailed' ? ' c-footer-on' : '')}>✓ ${footerText(turn.footer)}</div>` : null}
+    ${turn.footer ? html`<div class=${'c-footer' + (view === 'detailed' ? ' c-footer-on' : '')}><${Icon} n="check" size=${14} /> ${footerText(turn.footer)}</div>` : null}
   </section>`;
 }
 

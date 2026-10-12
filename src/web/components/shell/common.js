@@ -6,7 +6,9 @@ import { html } from 'htm/preact';
 import { useEffect, useLayoutEffect, useRef } from 'preact/hooks';
 import { signal } from '@preact/signals';
 import { t } from '../../lib/i18n.js';
+import { fmtTime } from '../../lib/fmt.js';
 import { stateGlyph } from '../../derived.js';
+import { GlyphIcon, Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').ChatSummary} ChatSummary */
 /** @typedef {import('../../../shared/protocol.ts').AccountView} AccountView */
@@ -14,11 +16,21 @@ import { stateGlyph } from '../../derived.js';
 /** @param {{ s: ChatSummary }} p */
 export function Glyph({ s }) {
   const g = stateGlyph(s);
-  return html`<span class=${`glyph st-${g.cls}`} role="img" aria-label=${g.label} title=${g.label}>${g.glyph}</span>`;
+  return html`<span class=${`glyph st-${g.cls}`} role="img" aria-label=${g.label} title=${g.label}><${GlyphIcon} g=${g.glyph} size=${14} /></span>`;
 }
 /** @param {{ a: AccountView | undefined; id?: string }} p */
 export function AccBadge({ a, id }) {
   return html`<span class=${`acc-badge acc-${a?.color ?? 8}`} title=${a?.name ?? id ?? ''}>${a?.monogram ?? (id ?? '?').slice(0, 1).toUpperCase()}</span>`;
+}
+
+/** One meter per usage window of an account (Comptes, dashboard). @param {{ a: AccountView }} p */
+export function UsageRows({ a }) {
+  const u = a.usage;
+  if (u?.na) return html`<p class="muted">${t('acc.usage.na')}</p>`;
+  return (u?.rows ?? []).map((r) => html`<div key=${r.key} class=${`usage-row sev-${r.severity} ${u?.stale ? 'stale' : ''}`}>
+    <span class="u-label">${r.label}</span><span class="u-bar" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow=${Math.round(r.pct)} aria-label=${r.label}>
+      <i ref=${(/** @type {HTMLElement | null} */ el) => { if (el) el.style.width = `${Math.max(0, Math.min(100, r.pct))}%`; }}></i></span>
+    <span class="u-pct">${Math.round(r.pct)} %</span>${r.resetsAt ? html`<span class="u-reset muted"><${Icon} n="rotate" size=${11} /> ${fmtTime(r.resetsAt)}</span>` : null}</div>`);
 }
 
 /**
@@ -85,7 +97,7 @@ export function Modal({ title, onClose, children, wide, cls, footer, labelId }) 
   return html`<div class="ov-backdrop" onMouseDown=${(/** @type {MouseEvent} */ e) => { if (e.target === e.currentTarget) onClose(); }}>
     <div ref=${ref} class=${`dlg ${wide ? 'dlg-wide' : ''} ${cls ?? ''}`} role="dialog" aria-modal="true" aria-labelledby=${id} tabindex="-1" onKeyDown=${onKey}>
       <header class="dlg-head"><h2 id=${id}>${title}</h2>
-        <button type="button" class="icon-btn" aria-label=${t('shell.close')} title=${t('shell.closeEsc')} onClick=${onClose}>✕</button></header>
+        <button type="button" class="icon-btn" aria-label=${t('shell.close')} title=${t('shell.closeEsc')} onClick=${onClose}><${Icon} n="x" /></button></header>
       <div class="dlg-body">${children}</div>
       ${footer ? html`<footer class="dlg-foot">${footer}</footer>` : null}
     </div></div>`;
@@ -131,6 +143,6 @@ export function MenuHost() {
       : html`<button type="button" class=${`menu-item ${it.danger ? 'danger' : ''}`} role=${it.checked !== undefined ? 'menuitemradio' : 'menuitem'}
           aria-checked=${it.checked !== undefined ? String(it.checked) : undefined} disabled=${it.disabled}
           onClick=${() => { menu.value = null; it.run?.(); }}>
-          <span class="menu-check" aria-hidden="true">${it.checked ? '✓' : ''}</span><span class="menu-label">${it.label}</span>${it.hint ? html`<kbd>${it.hint}</kbd>` : null}</button>`))}
+          <span class="menu-check" aria-hidden="true">${it.checked ? html`<${Icon} n="check" size=${14} />` : null}</span><span class="menu-label">${it.label}</span>${it.hint ? html`<kbd>${it.hint}</kbd>` : null}</button>`))}
   </div>`;
 }

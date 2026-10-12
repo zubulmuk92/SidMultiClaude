@@ -9,7 +9,8 @@ import { t } from '../../lib/i18n.js';
 import { fmtRel, fmtTime, fmtTokens } from '../../lib/fmt.js';
 import { accounts, chats } from '../../store.js';
 import { accountCmd, closeOverlay, copyText, openOverlay } from '../../actions.js';
-import { Modal } from '../shell/common.js';
+import { Modal, UsageRows } from '../shell/common.js';
+import { Icon } from '../../lib/icons.js';
 
 /** @typedef {import('../../../shared/protocol.ts').AccountView} AccountView */
 const MODES = /** @type {const} */ (['default', 'acceptEdits', 'plan', 'auto']);
@@ -33,10 +34,7 @@ function Usage({ a }) {
   const refresh = async () => { setBusy(true); try { await accountCmd.usage(a.id); } catch { /* toasted */ } finally { setBusy(false); } };
   const fresh = !u ? '' : u.source === 'snapshot' ? t('acc.usage.snapshot', { heure: fmtTime(u.at) }) : t('acc.usage.updated', { quand: fmtRel(u.at, Date.now()) });
   return html`<div class="usage">
-    ${u?.na ? html`<p class="muted">${t('acc.usage.na')}</p>` : (u?.rows ?? []).map((r) => html`<div key=${r.key} class=${`usage-row sev-${r.severity} ${u?.stale ? 'stale' : ''}`}>
-      <span class="u-label">${r.label}</span><span class="u-bar" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow=${Math.round(r.pct)} aria-label=${r.label}>
-        <i ref=${(/** @type {HTMLElement | null} */ el) => { if (el) el.style.width = `${Math.max(0, Math.min(100, r.pct))}%`; }}></i></span>
-      <span class="u-pct">${Math.round(r.pct)} %</span>${r.resetsAt ? html`<span class="u-reset muted">↻ ${fmtTime(r.resetsAt)}</span>` : null}</div>`)}
+    <${UsageRows} a=${a} />
     <p class="muted small">${fresh}${u?.stale ? ` · ${t('acc.usage.stale')}` : ''}
       ${a.login === 'connected' ? html` <button type="button" class="btn sm" disabled=${busy} onClick=${() => void refresh()}>${t('acc.usage.refresh')}</button>` : null}</p>
   </div>`;
@@ -48,7 +46,7 @@ function Diag({ a }) {
   const [base, setBase] = useState(/** @type {number | null} */ (d.baselineTokens ?? null));
   const line = '"cleanupPeriodDays": 365';
   return html`<details class="diag"><summary>${t('shell.acc.diag')}</summary>
-    ${!a.isDefault && d.leakFiles.length ? html`<p class=${d.leakExcluded ? 'muted' : 'msg warn'}>⚠ ${t('acc.leak', { fichier: d.leakFiles.join(', ') })}
+    ${!a.isDefault && d.leakFiles.length ? html`<p class=${d.leakExcluded ? 'muted' : 'msg warn'}><${Icon} n="alert-triangle" size=${14} /> ${t('acc.leak', { fichier: d.leakFiles.join(', ') })}
       <label class="check"><input type="checkbox" checked=${d.leakExcluded} onChange=${() => void accountCmd.update(a.id, { excludeForeignClaudeMd: !d.leakExcluded }).catch(() => {})} />${t('acc.leak.fix')}</label></p>` : null}
     ${d.duplicateOf ? html`<p class="msg warn">${t('acc.dup', { nom: accounts.value.find((x) => x.id === d.duplicateOf)?.name ?? d.duplicateOf })}</p>` : null}
     ${d.mcp ? html`<p>${t('acc.mcp', { ok: d.mcp.ok, auth: d.mcp.auth })}</p>` : null}
@@ -71,11 +69,11 @@ function Card({ a }) {
   const def = a.defaults;
   return html`<article class=${`acc-card acc-${a.color} ${a.hidden ? 'hidden-acc' : ''}`} aria-label=${a.name}>
     <header class="inline"><span class=${`acc-badge acc-${a.color}`}>${a.monogram}</span><h3 class="grow">${a.name}</h3>
-      <span class=${`login-state ls-${a.login}`}>● ${t(LOGIN_KEY[a.login])}</span></header>
+      <span class=${`login-state ls-${a.login}`}><${Icon} n="dot-fill" size=${10} /> ${t(LOGIN_KEY[a.login])}</span></header>
     ${a.identity ? html`<p>${a.identity.email} · ${a.identity.plan}${a.identity.org ? ` (${a.identity.org})` : ''}</p>` : null}
     <p class="muted small">${t('acc.profile', { chemin: a.configDir ?? `~\\.claude ${t('acc.profile.default')}` })}</p>
     <${Usage} a=${a} />
-    <p class="small">${t('acc.chats', { 'détail': `◐ ${running} · ! ${needs} · ${t('shell.acc.total', { n: mine.length })}` })}</p>
+    <p class="small">${t('acc.chats', { 'détail': `${t('shell.top.running', { n: running })} · ${t('shell.top.attention', { n: needs })} · ${t('shell.acc.total', { n: mine.length })}` })}</p>
     <div class="inline wrap"><span>${t('acc.color')}</span>${[1, 2, 3, 4, 5, 6, 7, 8].map((c) => html`<button type="button" key=${c} class=${`swatch acc-${c} ${c === a.color ? 'on' : ''}`}
         aria-label=${`${t('acc.color')} ${c}`} aria-pressed=${String(c === a.color)} onClick=${() => upd({ color: c })}></button>`)}</div>
     <div class="inline wrap"><label class="field"><span>${t('acc.name')}</span><input value=${a.name} maxlength="40" onChange=${(/** @type {Event} */ e) => { const v = /** @type {HTMLInputElement} */ (e.target).value.trim(); if (v) upd({ name: v }); }} /></label>
