@@ -66,7 +66,7 @@ test('first run: the welcome opens by itself, connected profiles pre-selected wi
     accs = await page().evaluate(async () => (await import('/app/store.js' as string)).accounts.value.map((a: any) => `${a.name}/${a.monogram}/${a.color}`));
     if (accs.length < 2) await new Promise((r) => setTimeout(r, 250));
   }
-  assert.deepEqual(accs.sort(), ['Perso/P/1', 'ACME/A/2']);
+  assert.deepEqual(accs.sort(), ['ACME/A/2', 'Perso/P/1']);
   await dlg.getByRole('heading', { name: 'ACME' }).waitFor();                     // the panel stays, now with the cards
   await page().keyboard.press('Escape');
   await dlg.waitFor({ state: 'detached' });
