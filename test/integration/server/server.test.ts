@@ -13,6 +13,7 @@ import { appPaths } from '../../../src/server/util/paths.ts';
 import { connectWs } from '../../helpers/ws-client.ts';
 import type { WsClient } from '../../helpers/ws-client.ts';
 import { createTmpRoot } from '../../helpers/tmp-profile.ts';
+import { budget } from '../../helpers/perf.ts';
 
 const tmp = createTmpRoot('int-server');
 const exits: number[] = [];
@@ -38,7 +39,8 @@ after(async () => {
 
 test('boot: listening fast on a random port, device token then hello', async () => {
   assert.ok(app.port > 0 && app.port !== 41731);
-  assert.ok(app.listenMs < 400, `listening after ${app.listenMs.toFixed(0)} ms`);
+  // shared-machine tier (helpers/perf.ts); the strict 400 ms budget is asserted on a fresh process in boot.test.ts
+  assert.ok(app.listenMs < budget(400), `listening after ${app.listenMs.toFixed(0)} ms`);
   w1 = await connectWs({ port: app.port, boot: app.newBootCode() });
   const hello = await w1.next<Extract<P.S2C, { t: 'hello' }>>((m) => m.t === 'hello');
   assert.ok(w1.deviceToken);
