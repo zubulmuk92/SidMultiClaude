@@ -169,7 +169,7 @@ export async function startApp(o: AppOptions): Promise<AppHandle> {
   const history = safeCreate(log, 'history', () => createPromptHistory({ accounts, appDir: paths.root,
     cwdOf: (id) => { try { return meta.chat(id)?.cwd ?? index.get(id)?.cwd; } catch { return undefined; } } }), inert.history);
   const platform = createPlatform({ appDir: paths.root, log: log.child('platform'), home, helpersFile: paths.helpers, edgeProfile: paths.edgeProfile,
-    probeCwd: paths.probeCwd, configDirs: () => accounts.list().map((x) => x.configDir).filter((x): x is string => !!x) });
+    probeCwd: paths.probeCwd, env, configDirs: () => accounts.list().map((x) => x.configDir).filter((x): x is string => !!x) });
   const exe = (pref: 'installed' | 'bundled'): P.Result<string, 'exe_missing'> => platform.claudeExe(pref);
   const cliPath = (): string => { const r = exe(meta.settings().exe); return r.ok ? r.data : 'claude.exe'; };
   // SMC_TEST only (the only case where the CLI can be a script, engine/exe.ts): the fake runs under this node.exe, as the SDK does

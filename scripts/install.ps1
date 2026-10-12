@@ -34,7 +34,13 @@ function Build-Helper([string]$source, [string]$out, [string]$target, [bool]$wit
   & $Csc @cscArgs | Out-Host
   return ($LASTEXITCODE -eq 0 -and (Test-Path -LiteralPath $out))
 }
-function Get-Sha256([string]$p) { (Get-FileHash -Algorithm SHA256 -LiteralPath $p).Hash.ToLowerInvariant() }
+# .NET rather than Get-FileHash: started from PowerShell 7, Windows PowerShell inherits its PSModulePath and cannot load
+# the script functions of Microsoft.PowerShell.Utility (Get-FileHash is one of them).
+function Get-Sha256([string]$p) {
+  $sha = [Security.Cryptography.SHA256]::Create()
+  try { return ([BitConverter]::ToString($sha.ComputeHash([IO.File]::ReadAllBytes($p))) -replace '-', '').ToLowerInvariant() }
+  finally { $sha.Dispose() }
+}
 
 $launcherExe = Join-Path $OutDir 'SidMultiClaude.exe'
 $jobrunExe = Join-Path $OutDir 'jobrun.exe'

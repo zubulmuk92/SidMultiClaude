@@ -3,6 +3,7 @@
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import path from 'node:path';
 import type * as P from '../../../src/shared/protocol.ts';
 import { parseArgs, startApp } from '../../../src/server/main.ts';
 import type { AppHandle } from '../../../src/server/main.ts';
@@ -25,7 +26,8 @@ const UUID = (n: number): string => `0b6f3a59-0a8e-4c55-8a51-${String(n).padStar
 before(async () => {
   tmp.defaultProfile({ login: 'connected' });
   app = await startApp({ args: parseArgs(['--data-dir', tmp.appDir, '--profiles-root', tmp.home, '--fake-engine']),
-    env: { ...process.env, SMC_TEST: '1' }, exit: (c) => { exits.push(c); }, openWindow: (_p, code) => { opened.push(code); } });
+    // SMC_CLAUDE_EXE: the fake engine never starts it, but chat commands refuse to run without an existing CLI file
+    env: { ...process.env, SMC_TEST: '1', SMC_CLAUDE_EXE: path.resolve(import.meta.dirname, '..', '..', 'fakes', 'fake-claude.mjs') }, exit: (c) => { exits.push(c); }, openWindow: (_p, code) => { opened.push(code); } });
   fe = app.engine as FakeEngine;
 });
 after(async () => {

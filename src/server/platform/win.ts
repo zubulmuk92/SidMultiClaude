@@ -119,6 +119,7 @@ export type PlatformDeps = {
   home?: string;                                   // profiles root (--profiles-root), default the real home
   configDirs?: () => readonly string[];            // configured account dirs (S9 refusals)
   helpersFile?: string; edgeProfile?: string; probeCwd?: string;
+  env?: NodeJS.ProcessEnv;                         // default process.env (startApp's env in tests)
 };
 export function createPlatform(d: PlatformDeps): Platform & { jobrunPath(): string | null } {
   const home = d.home ?? homeReal();
@@ -134,7 +135,7 @@ export function createPlatform(d: PlatformDeps): Platform & { jobrunPath(): stri
     catch (e) { d.log.warn('open refused', { err: String(e) }); }
   };
   return {
-    claudeExe: (pref) => resolveClaudeExe(pref),
+    claudeExe: (pref) => resolveClaudeExe(pref, d.env),
     checkCwd: (p, configDirs): CwdCheck => checkCwdPolicy(p, [...configDirs, ...(d.configDirs?.() ?? [])], { home, appDir: d.appDir, probeCwd: d.probeCwd }),
     confine: (root, rel) => confine(root, rel),
     jobrunAvailable: () => jobrunPath() !== null,
