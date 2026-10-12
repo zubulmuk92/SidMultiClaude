@@ -1,0 +1,65 @@
+{
+  "name": "sidmulticlaude",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Application Windows locale et légère pour piloter plusieurs comptes Claude Code dans une seule interface interactive, avec une stricte parité de tokens.",
+  "license": "MIT",
+  "author": "zubulmuk92",
+  "homepage": "https://github.com/zubulmuk92/SidMultiClaude#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zubulmuk92/SidMultiClaude.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zubulmuk92/SidMultiClaude/issues"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "multi-comptes",
+    "multi-account",
+    "anthropic",
+    "agent-sdk",
+    "windows",
+    "preact",
+    "interface",
+    "local"
+  ],
+  "type": "module",
+  "engines": {
+    "node": ">=24.16"
+  },
+  "scripts": {
+    "start": "node src/server/main.ts --open",
+    "dev": "node --watch src/server/main.ts --open",
+    "check": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.web.json",
+    "test": "node --test \"test/unit/**/*.test.ts\"",
+    "test:browser": "node --test --test-concurrency=1 \"test/browser/**/*.test.ts\"",
+    "test:int": "node --test --test-concurrency=1 \"test/integration/**/*.test.ts\"",
+    "test:parity": "node --test \"test/parity/**/*.test.ts\"",
+    "test:contract": "node --test \"test/contract/**/*.test.ts\"",
+    "test:e2e": "node --test --test-concurrency=1 \"test/e2e/**/*.e2e.ts\"",
+    "smoke": "node scripts/smoke.ts",
+    "install-app": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install.ps1",
+    "fetch-bundled-cli": "npm install --no-save --ignore-scripts @anthropic-ai/claude-agent-sdk-win32-x64@0.3.293",
+    "vendor-audit": "node scripts/vendor-audit.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "0.3.293",
+    "@highlightjs/cdn-assets": "11.12.0",
+    "@preact/signals": "2.11.3",
+    "@preact/signals-core": "1.14.4",
+    "dompurify": "3.4.16",
+    "htm": "3.1.1",
+    "marked": "18.1.0",
+    "preact": "11.0.1",
+    "ws": "8.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.1",
+    "@typescript/typescript-win32-x64": "7.0.2",
+    "@types/ws": "8.18.2",
+    "playwright-core": "1.63.0",
+    "typescript": "7.0.2"
+  }
+}

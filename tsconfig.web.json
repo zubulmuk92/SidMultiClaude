@@ -1,0 +1,3 @@
+{ "compilerOptions": { "target": "esnext", "module": "esnext", "moduleResolution": "bundler", "lib": ["esnext", "dom", "dom.iterable"],
+    "types": [], "noEmit": true, "allowJs": true, "checkJs": true, "strict": true, "skipLibCheck": true, "allowImportingTsExtensions": true },
+  "include": ["src/web/**/*.js", "src/web/**/*.d.ts"] }

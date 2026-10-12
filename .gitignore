@@ -1,0 +1,39 @@
+# Dépendances
+node_modules/
+
+# Journaux
+logs/
+*.log
+npm-debug.log*
+
+# Données locales (exécutions avec --data-dir, brouillons de tests, profils de navigateur)
+.smc-data/
+.tmp/
+tmp/
+edge-profile/
+test-results/
+coverage/
+*.tmp
+
+# Utilitaires compilés à l'installation (à partir de launcher/*.cs par scripts/install.ps1)
+launcher/*.exe
+launcher/*.pdb
+
+# Secrets et environnement
+.env
+.env.*
+*.key
+.credentials.json
+
+# Configuration locale de Claude Code (jamais publiée)
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+
+# Bruit du système et des éditeurs
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+.idea/
+*.swp

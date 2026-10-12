@@ -1,0 +1,7 @@
+/* test/browser/chat/harness/harness.css — layout of the harness page only (WP-F). */
+html, body { margin: 0; height: 100%; }
+#app { height: 100vh; }
+.hz-grid { display: grid; height: 100vh; gap: 4px; grid-template-columns: 1fr; }
+.hz-2 { grid-template-columns: 1fr 1fr; }
+.hz-3, .hz-4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+.hz-peek { position: fixed; top: 40px; left: 40px; z-index: 60; }

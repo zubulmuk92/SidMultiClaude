@@ -1,0 +1,506 @@
+{
+ "new/default/nobypass": {
+  "canUseTool": "[fn]",
+  "cwd": "C:/work/p",
+  "enableFileCheckpointing": true,
+  "env": {
+   "CLAUDE_AGENT_SDK_CLIENT_APP": "sidmulticlaude/0.1.0",
+   "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1"
+  },
+  "includePartialMessages": true,
+  "onElicitation": "[fn]",
+  "pathToClaudeCodeExecutable": "C:/Users/X/.local/bin/claude.exe",
+  "permissionMode": "default",
+  "perTaskStopAffordance": true,
+  "sessionId": "11111111-2222-4333-8444-555555555555",
+  "settingSources": [
+   "user",
+   "project",
+   "local"
+  ],
+  "spawnClaudeCodeProcess": "[fn]",
+  "stderr": "[fn]",
+  "systemPrompt": {
+   "type": "preset",
+   "preset": "claude_code"
+  },
+  "title": "Nouveau chat"
+ },
+ "new/default/bypass": {
+  "allowDangerouslySkipPermissions": true,
+  "canUseTool": "[fn]",
+  "cwd": "C:/work/p",
+  "enableFileCheckpointing": true,
+  "env": {
+   "CLAUDE_AGENT_SDK_CLIENT_APP": "sidmulticlaude/0.1.0",
+   "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1"
+  },
+  "includePartialMessages": true,
+  "onElicitation": "[fn]",
+  "pathToClaudeCodeExecutable": "C:/Users/X/.local/bin/claude.exe",
+  "permissionMode": "bypassPermissions",
+  "perTaskStopAffordance": true,
+  "sessionId": "11111111-2222-4333-8444-555555555555",
+  "settingSources": [
+   "user",
+   "project",
+   "local"
+  ],
+  "spawnClaudeCodeProcess": "[fn]",
+  "stderr": "[fn]",
+  "systemPrompt": {
+   "type": "preset",
+   "preset": "claude_code"
+  },
+  "title": "Nouveau chat"
+ },
+ "new/other/nobypass": {
+  "canUseTool": "[fn]",
+  "cwd": "C:/work/p",
+  "enableFileCheckpointing": true,
+  "env": {
+   "CLAUDE_AGENT_SDK_CLIENT_APP": "sidmulticlaude/0.1.0",
+   "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1",
+   "CLAUDE_CONFIG_DIR": "C:/Users/X/.claude-pro"
+  },
+  "includePartialMessages": true,
+  "onElicitation": "[fn]",
+  "pathToClaudeCodeExecutable": "C:/Users/X/.local/bin/claude.exe",
+  "permissionMode": "default",
+  "perTaskStopAffordance": true,
+  "sessionId": "11111111-2222-4333-8444-555555555555",
+  "settings": {
+   "claudeMdExcludes": [
+    "C:/Users/X/.claude/CLAUDE.md",
+    "C:/Users/X/.claude/rules/**"
+   ]
+  },
+  "settingSources": [
+   "user",
+   "project",
+   "local"
+  ],
+  "spawnClaudeCodeProcess": "[fn]",
+  "stderr": "[fn]",
+  "systemPrompt": {
+   "type": "preset",
+   "preset": "claude_code"
+  },
+  "title": "Nouveau chat"
+ },
+ "new/other/bypass": {
+  "allowDangerouslySkipPermissions": true,
+  "canUseTool": "[fn]",
+  "cwd": "C:/work/p",
+  "enableFileCheckpointing": true,
+  "env": {
+   "CLAUDE_AGENT_SDK_CLIENT_APP": "sidmulticlaude/0.1.0",
+   "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1",
+   "CLAUDE_CONFIG_DIR": "C:/Users/X/.claude-pro"
+  },
+  "includePartialMessages": true,
+  "onElicitation": "[fn]",
+  "pathToClaudeCodeExecutable": "C:/Users/X/.local/bin/claude.exe",
+  "permissionMode": "bypassPermissions",
+  "perTaskStopAffordance": true,
+  "sessionId": "11111111-2222-4333-8444-555555555555",
+  "settings": {
+   "claudeMdExcludes": [
+    "C:/Users/X/.claude/CLAUDE.md",
+    "C:/Users/X/.claude/rules/**"
+   ]
+  },
+  "settingSources": [
+   "user",
+   "project",
+   "local"
+  ],
+  "spawnClaudeCodeProcess": "[fn]",
+  "stderr": "[fn]",
+  "systemPrompt": {
+   "type": "preset",
+   "preset": "claude_code"
+  },
+  "title": "Nouveau chat"
+ },
+ "resume/default/nobypass": {
+  "canUseTool": "[fn]",
+  "cwd": "C:/work/p",
+  "enableFileCheckpointing": true,
+  "env": {
+   "CLAUDE_AGENT_SDK_CLIENT_APP": "sidmulticlaude/0.1.0",
+   "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1"
+  },
+  "includePartialMessages": true,
+  "onElicitation": "[fn]",
+  "pathToClaudeCodeExecutable": "C:/Users/X/.local/bin/claude.exe",
+  "permissionMode": "default",
+  "perTaskStopAffordance": true,
+  "resume": "11111111-2222-4333-8444-555555555555",
+  "settingSources": [
+   "user",
+   "project",
+   "local"
+  ],
+  "spawnClaudeCodeProcess": "[fn]",
+  "stderr": "[fn]",
+  "systemPrompt": {
+   "type": "preset",
+   "preset": "claude_code"
+  }
+ },
+ "resume/default/bypass": {
+  "allowDangerouslySkipPermissions": true,
+  "canUseTool": "[fn]",
+  "cwd": "C:/work/p",
+  "enableFileCheckpointing": true,
+  "env": {
+   "CLAUDE_AGENT_SDK_CLIENT_APP": "sidmulticlaude/0.1.0",
+   "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1"
+  },
+  "includePartialMessages": true,
+  "onElicitation": "[fn]",
+  "pathToClaudeCodeExecutable": "C:/Users/X/.local/bin/claude.exe",
+  "permissionMode": "bypassPermissions",
+  "perTaskStopAffordance": true,
+  "resume": "11111111-2222-4333-8444-555555555555",
+  "settingSources": [
+   "user",
+   "project",
+   "local"
+  ],
+  "spawnClaudeCodeProcess": "[fn]",
+  "stderr": "[fn]",
+  "systemPrompt": {
+   "type": "preset",
+   "preset": "claude_code"
+  }
+ },
+ "resume/other/nobypass": {
+  "canUseTool": "[fn]",
+  "cwd": "C:/work/p",
+  "enableFileCheckpointing": true,
+  "env": {
+   "CLAUDE_AGENT_SDK_CLIENT_APP": "sidmulticlaude/0.1.0",
+   "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1",
+   "CLAUDE_CONFIG_DIR": "C:/Users/X/.claude-pro"
+  },
+  "includePartialMessages": true,
+  "onElicitation": "[fn]",
+  "pathToClaudeCodeExecutable": "C:/Users/X/.local/bin/claude.exe",
+  "permissionMode": "default",
+  "perTaskStopAffordance": true,
+  "resume": "11111111-2222-4333-8444-555555555555",
+  "settings": {
+   "claudeMdExcludes": [
+    "C:/Users/X/.claude/CLAUDE.md",
+    "C:/Users/X/.claude/rules/**"
+   ]
+  },
+  "settingSources": [
+   "user",
+   "project",
+   "local"
+  ],
+  "spawnClaudeCodeProcess": "[fn]",
+  "stderr": "[fn]",
+  "systemPrompt": {
+   "type": "preset",
+   "preset": "claude_code"
+  }
+ },
+ "resume/other/bypass": {
+  "allowDangerouslySkipPermissions": true,
+  "canUseTool": "[fn]",
+  "cwd": "C:/work/p",
+  "enableFileCheckpointing": true,
+  "env": {
+   "CLAUDE_AGENT_SDK_CLIENT_APP": "sidmulticlaude/0.1.0",
+   "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1",
+   "CLAUDE_CONFIG_DIR": "C:/Users/X/.claude-pro"
+  },
+  "includePartialMessages": true,
+  "onElicitation": "[fn]",
+  "pathToClaudeCodeExecutable": "C:/Users/X/.local/bin/claude.exe",
+  "permissionMode": "bypassPermissions",
+  "perTaskStopAffordance": true,
+  "resume": "11111111-2222-4333-8444-555555555555",
+  "settings": {
+   "claudeMdExcludes": [
+    "C:/Users/X/.claude/CLAUDE.md",
+    "C:/Users/X/.claude/rules/**"
+   ]
+  },
+  "settingSources": [
+   "user",
+   "project",
+   "local"
+  ],
+  "spawnClaudeCodeProcess": "[fn]",
+  "stderr": "[fn]",
+  "systemPrompt": {
+   "type": "preset",
+   "preset": "claude_code"
+  }
+ },
+ "fork/default/nobypass": {
+  "canUseTool": "[fn]",
+  "cwd": "C:/work/p",
+  "enableFileCheckpointing": true,
+  "env": {
+   "CLAUDE_AGENT_SDK_CLIENT_APP": "sidmulticlaude/0.1.0",
+   "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1"
+  },
+  "forkSession": true,
+  "includePartialMessages": true,
+  "onElicitation": "[fn]",
+  "pathToClaudeCodeExecutable": "C:/Users/X/.local/bin/claude.exe",
+  "permissionMode": "default",
+  "perTaskStopAffordance": true,
+  "resume": "C:/Users/X/.claude-pro/projects/C--work-p/aaaaaaaa-0000-4000-8000-000000000000.jsonl",
+  "sessionId": "11111111-2222-4333-8444-555555555555",
+  "settingSources": [
+   "user",
+   "project",
+   "local"
+  ],
+  "spawnClaudeCodeProcess": "[fn]",
+  "stderr": "[fn]",
+  "systemPrompt": {
+   "type": "preset",
+   "preset": "claude_code"
+  },
+  "title": "Copie"
+ },
+ "fork/default/bypass": {
+  "allowDangerouslySkipPermissions": true,
+  "canUseTool": "[fn]",
+  "cwd": "C:/work/p",
+  "enableFileCheckpointing": true,
+  "env": {
+   "CLAUDE_AGENT_SDK_CLIENT_APP": "sidmulticlaude/0.1.0",
+   "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1"
+  },
+  "forkSession": true,
+  "includePartialMessages": true,
+  "onElicitation": "[fn]",
+  "pathToClaudeCodeExecutable": "C:/Users/X/.local/bin/claude.exe",
+  "permissionMode": "bypassPermissions",
+  "perTaskStopAffordance": true,
+  "resume": "C:/Users/X/.claude-pro/projects/C--work-p/aaaaaaaa-0000-4000-8000-000000000000.jsonl",
+  "sessionId": "11111111-2222-4333-8444-555555555555",
+  "settingSources": [
+   "user",
+   "project",
+   "local"
+  ],
+  "spawnClaudeCodeProcess": "[fn]",
+  "stderr": "[fn]",
+  "systemPrompt": {
+   "type": "preset",
+   "preset": "claude_code"
+  },
+  "title": "Copie"
+ },
+ "fork/other/nobypass": {
+  "canUseTool": "[fn]",
+  "cwd": "C:/work/p",
+  "enableFileCheckpointing": true,
+  "env": {
+   "CLAUDE_AGENT_SDK_CLIENT_APP": "sidmulticlaude/0.1.0",
+   "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1",
+   "CLAUDE_CONFIG_DIR": "C:/Users/X/.claude-pro"
+  },
+  "forkSession": true,
+  "includePartialMessages": true,
+  "onElicitation": "[fn]",
+  "pathToClaudeCodeExecutable": "C:/Users/X/.local/bin/claude.exe",
+  "permissionMode": "default",
+  "perTaskStopAffordance": true,
+  "resume": "C:/Users/X/.claude-pro/projects/C--work-p/aaaaaaaa-0000-4000-8000-000000000000.jsonl",
+  "sessionId": "11111111-2222-4333-8444-555555555555",
+  "settings": {
+   "claudeMdExcludes": [
+    "C:/Users/X/.claude/CLAUDE.md",
+    "C:/Users/X/.claude/rules/**"
+   ]
+  },
+  "settingSources": [
+   "user",
+   "project",
+   "local"
+  ],
+  "spawnClaudeCodeProcess": "[fn]",
+  "stderr": "[fn]",
+  "systemPrompt": {
+   "type": "preset",
+   "preset": "claude_code"
+  },
+  "title": "Copie"
+ },
+ "fork/other/bypass": {
+  "allowDangerouslySkipPermissions": true,
+  "canUseTool": "[fn]",
+  "cwd": "C:/work/p",
+  "enableFileCheckpointing": true,
+  "env": {
+   "CLAUDE_AGENT_SDK_CLIENT_APP": "sidmulticlaude/0.1.0",
+   "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1",
+   "CLAUDE_CONFIG_DIR": "C:/Users/X/.claude-pro"
+  },
+  "forkSession": true,
+  "includePartialMessages": true,
+  "onElicitation": "[fn]",
+  "pathToClaudeCodeExecutable": "C:/Users/X/.local/bin/claude.exe",
+  "permissionMode": "bypassPermissions",
+  "perTaskStopAffordance": true,
+  "resume": "C:/Users/X/.claude-pro/projects/C--work-p/aaaaaaaa-0000-4000-8000-000000000000.jsonl",
+  "sessionId": "11111111-2222-4333-8444-555555555555",
+  "settings": {
+   "claudeMdExcludes": [
+    "C:/Users/X/.claude/CLAUDE.md",
+    "C:/Users/X/.claude/rules/**"
+   ]
+  },
+  "settingSources": [
+   "user",
+   "project",
+   "local"
+  ],
+  "spawnClaudeCodeProcess": "[fn]",
+  "stderr": "[fn]",
+  "systemPrompt": {
+   "type": "preset",
+   "preset": "claude_code"
+  },
+  "title": "Copie"
+ },
+ "rewind/default/nobypass": {
+  "canUseTool": "[fn]",
+  "cwd": "C:/work/p",
+  "enableFileCheckpointing": true,
+  "env": {
+   "CLAUDE_AGENT_SDK_CLIENT_APP": "sidmulticlaude/0.1.0",
+   "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1"
+  },
+  "includePartialMessages": true,
+  "onElicitation": "[fn]",
+  "pathToClaudeCodeExecutable": "C:/Users/X/.local/bin/claude.exe",
+  "permissionMode": "default",
+  "perTaskStopAffordance": true,
+  "resume": "11111111-2222-4333-8444-555555555555",
+  "resumeDropsTurn": "cccccccc-0000-4000-8000-000000000000",
+  "resumeSessionAt": "bbbbbbbb-0000-4000-8000-000000000000",
+  "settingSources": [
+   "user",
+   "project",
+   "local"
+  ],
+  "spawnClaudeCodeProcess": "[fn]",
+  "stderr": "[fn]",
+  "systemPrompt": {
+   "type": "preset",
+   "preset": "claude_code"
+  }
+ },
+ "rewind/default/bypass": {
+  "allowDangerouslySkipPermissions": true,
+  "canUseTool": "[fn]",
+  "cwd": "C:/work/p",
+  "enableFileCheckpointing": true,
+  "env": {
+   "CLAUDE_AGENT_SDK_CLIENT_APP": "sidmulticlaude/0.1.0",
+   "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1"
+  },
+  "includePartialMessages": true,
+  "onElicitation": "[fn]",
+  "pathToClaudeCodeExecutable": "C:/Users/X/.local/bin/claude.exe",
+  "permissionMode": "bypassPermissions",
+  "perTaskStopAffordance": true,
+  "resume": "11111111-2222-4333-8444-555555555555",
+  "resumeDropsTurn": "cccccccc-0000-4000-8000-000000000000",
+  "resumeSessionAt": "bbbbbbbb-0000-4000-8000-000000000000",
+  "settingSources": [
+   "user",
+   "project",
+   "local"
+  ],
+  "spawnClaudeCodeProcess": "[fn]",
+  "stderr": "[fn]",
+  "systemPrompt": {
+   "type": "preset",
+   "preset": "claude_code"
+  }
+ },
+ "rewind/other/nobypass": {
+  "canUseTool": "[fn]",
+  "cwd": "C:/work/p",
+  "enableFileCheckpointing": true,
+  "env": {
+   "CLAUDE_AGENT_SDK_CLIENT_APP": "sidmulticlaude/0.1.0",
+   "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1",
+   "CLAUDE_CONFIG_DIR": "C:/Users/X/.claude-pro"
+  },
+  "includePartialMessages": true,
+  "onElicitation": "[fn]",
+  "pathToClaudeCodeExecutable": "C:/Users/X/.local/bin/claude.exe",
+  "permissionMode": "default",
+  "perTaskStopAffordance": true,
+  "resume": "11111111-2222-4333-8444-555555555555",
+  "resumeDropsTurn": "cccccccc-0000-4000-8000-000000000000",
+  "resumeSessionAt": "bbbbbbbb-0000-4000-8000-000000000000",
+  "settings": {
+   "claudeMdExcludes": [
+    "C:/Users/X/.claude/CLAUDE.md",
+    "C:/Users/X/.claude/rules/**"
+   ]
+  },
+  "settingSources": [
+   "user",
+   "project",
+   "local"
+  ],
+  "spawnClaudeCodeProcess": "[fn]",
+  "stderr": "[fn]",
+  "systemPrompt": {
+   "type": "preset",
+   "preset": "claude_code"
+  }
+ },
+ "rewind/other/bypass": {
+  "allowDangerouslySkipPermissions": true,
+  "canUseTool": "[fn]",
+  "cwd": "C:/work/p",
+  "enableFileCheckpointing": true,
+  "env": {
+   "CLAUDE_AGENT_SDK_CLIENT_APP": "sidmulticlaude/0.1.0",
+   "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "1",
+   "CLAUDE_CONFIG_DIR": "C:/Users/X/.claude-pro"
+  },
+  "includePartialMessages": true,
+  "onElicitation": "[fn]",
+  "pathToClaudeCodeExecutable": "C:/Users/X/.local/bin/claude.exe",
+  "permissionMode": "bypassPermissions",
+  "perTaskStopAffordance": true,
+  "resume": "11111111-2222-4333-8444-555555555555",
+  "resumeDropsTurn": "cccccccc-0000-4000-8000-000000000000",
+  "resumeSessionAt": "bbbbbbbb-0000-4000-8000-000000000000",
+  "settings": {
+   "claudeMdExcludes": [
+    "C:/Users/X/.claude/CLAUDE.md",
+    "C:/Users/X/.claude/rules/**"
+   ]
+  },
+  "settingSources": [
+   "user",
+   "project",
+   "local"
+  ],
+  "spawnClaudeCodeProcess": "[fn]",
+  "stderr": "[fn]",
+  "systemPrompt": {
+   "type": "preset",
+   "preset": "claude_code"
+  }
+ }
+}

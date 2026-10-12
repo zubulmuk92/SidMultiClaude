@@ -1,0 +1,60 @@
+/* src/web/styles/tokens.css — theme tokens (ux §13, verbatim).
+   The dark tokens are written twice, as ux §13 asks:
+   - under `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) }` (Thème : Système, OS in dark mode);
+   - under `:root[data-theme="dark"]` (Thème : Sombre).
+   Keep both blocks identical. `color-scheme` (native scrollbars and form controls follow the theme) is the only addition. */
+:root {
+  --font-ui: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Cascadia Mono", "Cascadia Code", Consolas, monospace;
+  --fs-ui: 13px; --fs-chat: 14px; --lh-chat: 1.55; --fs-code: 12.5px;
+  --sp-1: 2px; --sp-2: 4px; --sp-3: 6px; --sp-4: 8px; --sp-5: 12px; --sp-6: 16px; --sp-7: 24px;
+  --radius-card: 6px; --radius-chip: 4px; --motion: 120ms cubic-bezier(.2,.8,.2,1);
+  color-scheme: light;
+
+  /* light */
+  --bg-app:#F6F7F9; --bg:#FFFFFF; --bg-elev:#FFFFFF; --bg-sunken:#EEF0F3; --bg-hover:#E9ECF1; --bg-active:#DDE3EC;
+  --fg:#1B1F24; --fg-muted:#57606A; --fg-subtle:#636C76; --border:#D0D7DE; --border-strong:#AFB8C1;
+  --accent:#2F5BD3; --focus:#2F6FED; --on-accent:#FFFFFF;
+  --st-run:#1D63D8; --st-needs:#8A5D00; --st-needs-bg:#FFF4D6; --st-done:#177A33; --st-err:#CF222E;
+  --st-err-bg:#FFEBE9; --st-limit:#B04600; --st-cold:#7D8590; /* cold = glyph only (≥ 3:1), never text */
+  --mode-manual:#57606A; --mode-edits:#8250DF; --mode-plan:#0F766E; --mode-auto:#3F4FB8; --mode-bypass:#CF222E;
+  --diff-add-bg:#E6FFEC; --diff-add-fg:#116329; --diff-add-word:#ABF2BC;
+  --diff-del-bg:#FFEBE9; --diff-del-fg:#82071E; --diff-del-word:#FFC1C0; --diff-hunk-bg:#DDF4FF;
+  --code-bg:#F6F8FA; --code-fg:#1F2328; --selection:#B6D4FE;
+  /* account palette (white text ≥ 4.5:1 on each) */
+  --acc-1:#7C3AED; --acc-2:#0F766E; --acc-3:#BE185D; --acc-4:#0E7490;
+  --acc-5:#4D7C0F; --acc-6:#9A3412; --acc-7:#4338CA; --acc-8:#475569;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg-app:#0B0D10; --bg:#0F1115; --bg-elev:#161A20; --bg-sunken:#0A0C0F; --bg-hover:#1E242C; --bg-active:#263040;
+    --fg:#E6EDF3; --fg-muted:#9DA7B3; --fg-subtle:#8B949E; --border:#2D333B; --border-strong:#444C56;
+    --accent:#6C9EFF; --focus:#79A8FF; --on-accent:#0B0D10;
+    --st-run:#58A6FF; --st-needs:#E3B341; --st-needs-bg:#3A2E0B; --st-done:#3FB950; --st-err:#F85149;
+    --st-err-bg:#3D1414; --st-limit:#F0883E; --st-cold:#6E7681;
+    --mode-manual:#9DA7B3; --mode-edits:#A371F7; --mode-plan:#2BB3A3; --mode-auto:#7C8CF8; --mode-bypass:#F85149;
+    --diff-add-bg:rgba(46,160,67,.15); --diff-add-fg:#7EE787; --diff-add-word:rgba(46,160,67,.40);
+    --diff-del-bg:rgba(248,81,73,.15); --diff-del-fg:#FFA198; --diff-del-word:rgba(248,81,73,.40); --diff-hunk-bg:#0C2D4B;
+    --code-bg:#11151A; --code-fg:#E6EDF3; --selection:#264F78;
+    --acc-1:#A78BFA; --acc-2:#2DD4BF; --acc-3:#F472B6; --acc-4:#22D3EE;
+    --acc-5:#A3E635; --acc-6:#FB923C; --acc-7:#818CF8; --acc-8:#94A3B8;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-app:#0B0D10; --bg:#0F1115; --bg-elev:#161A20; --bg-sunken:#0A0C0F; --bg-hover:#1E242C; --bg-active:#263040;
+  --fg:#E6EDF3; --fg-muted:#9DA7B3; --fg-subtle:#8B949E; --border:#2D333B; --border-strong:#444C56;
+  --accent:#6C9EFF; --focus:#79A8FF; --on-accent:#0B0D10;
+  --st-run:#58A6FF; --st-needs:#E3B341; --st-needs-bg:#3A2E0B; --st-done:#3FB950; --st-err:#F85149;
+  --st-err-bg:#3D1414; --st-limit:#F0883E; --st-cold:#6E7681;
+  --mode-manual:#9DA7B3; --mode-edits:#A371F7; --mode-plan:#2BB3A3; --mode-auto:#7C8CF8; --mode-bypass:#F85149;
+  --diff-add-bg:rgba(46,160,67,.15); --diff-add-fg:#7EE787; --diff-add-word:rgba(46,160,67,.40);
+  --diff-del-bg:rgba(248,81,73,.15); --diff-del-fg:#FFA198; --diff-del-word:rgba(248,81,73,.40); --diff-hunk-bg:#0C2D4B;
+  --code-bg:#11151A; --code-fg:#E6EDF3; --selection:#264F78;
+  --acc-1:#A78BFA; --acc-2:#2DD4BF; --acc-3:#F472B6; --acc-4:#22D3EE;
+  --acc-5:#A3E635; --acc-6:#FB923C; --acc-7:#818CF8; --acc-8:#94A3B8;
+}
+body { background: var(--bg-app); color: var(--fg); font: var(--fs-ui)/1.4 var(--font-ui); }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+@media (forced-colors: active) { /* states keep their glyphs; borders use CanvasText/Highlight */ }

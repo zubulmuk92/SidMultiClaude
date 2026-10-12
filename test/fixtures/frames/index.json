@@ -1,0 +1,162 @@
+{
+ "generatedBy": "scripts/sanitize-frames.mjs",
+ "source": "recorded runs: SDK 0.3.293 + CLI 2.1.294 (structure only, synthetic text)",
+ "totalFrames": 538,
+ "fixtures": {
+  "dry": {
+   "frames": 10,
+   "wire": 16,
+   "sessionIds": [
+    "edae79d6-bfad-429f-b9d7-69d2eea60537"
+   ],
+   "inputs": [],
+   "facts": {
+    "delivery": {},
+    "modeTrail": [],
+    "title": "verify-dry",
+    "assistantModels": []
+   }
+  },
+  "fork": {
+   "frames": 16,
+   "wire": 23,
+   "sessionIds": [
+    "aa719553-107b-4579-ac44-e53f12efc6e1"
+   ],
+   "inputs": [
+    {
+     "label": "fork#1",
+     "uuid": "0e000dd6-0622-4c87-9243-dca629c83fc5",
+     "images": 0
+    }
+   ],
+   "facts": {
+    "delivery": {
+     "0e000dd6-0622-4c87-9243-dca629c83fc5": "completed"
+    },
+    "modeTrail": [
+     "default"
+    ],
+    "title": "verify-fork",
+    "assistantModels": [
+     "claude-haiku-5-5"
+    ]
+   },
+   "pair": {
+    "sessionId": "aa719553-107b-4579-ac44-e53f12efc6e1",
+    "transcriptLines": 76,
+    "cwd": "C:\\Users\\smc-user\\Projects\\fixtures\\fork-2026-10-08T12-28-23-734Z"
+   }
+  },
+  "main": {
+   "frames": 276,
+   "wire": 329,
+   "sessionIds": [
+    "4adf4c63-b504-4be1-804b-92a88963e275"
+   ],
+   "inputs": [
+    {
+     "label": "T1",
+     "uuid": "f29553d0-1855-4d71-909f-38c802fc2a8d",
+     "images": 0
+    },
+    {
+     "label": "T2",
+     "uuid": "75b3d0ab-3d74-4b67-9c8b-d4891650ac1c",
+     "images": 0
+    },
+    {
+     "label": "T3",
+     "uuid": "3356417b-f2f1-47f6-a597-e6cce5d9bb68",
+     "images": 0
+    },
+    {
+     "label": "A",
+     "uuid": "3a40da14-8b6e-4b29-a25c-d57820fb6537",
+     "images": 0
+    },
+    {
+     "label": "B",
+     "uuid": "8474d393-bf51-4df6-8763-b2bd72558493",
+     "images": 0
+    },
+    {
+     "label": "C",
+     "uuid": "ce613064-d3b0-4b4a-b1ec-fb73fdb375f3",
+     "priority": "later",
+     "images": 0
+    },
+    {
+     "label": "D",
+     "uuid": "d3d7ea16-a4f0-40e2-886b-6d23dc2b7197",
+     "priority": "later",
+     "images": 0
+    },
+    {
+     "label": "T6",
+     "uuid": "ca4b0112-e963-461f-b8ff-bd24341c4719",
+     "images": 1
+    }
+   ],
+   "facts": {
+    "delivery": {
+     "f29553d0-1855-4d71-909f-38c802fc2a8d": "cancelled",
+     "75b3d0ab-3d74-4b67-9c8b-d4891650ac1c": "completed",
+     "3356417b-f2f1-47f6-a597-e6cce5d9bb68": "completed",
+     "3a40da14-8b6e-4b29-a25c-d57820fb6537": "completed",
+     "8474d393-bf51-4df6-8763-b2bd72558493": "folded",
+     "ce613064-d3b0-4b4a-b1ec-fb73fdb375f3": "completed",
+     "d3d7ea16-a4f0-40e2-886b-6d23dc2b7197": "cancelled",
+     "ca4b0112-e963-461f-b8ff-bd24341c4719": "completed"
+    },
+    "modeTrail": [
+     "default",
+     "acceptEdits",
+     "default"
+    ],
+    "title": "LIVE-TITLE",
+    "assistantModels": [
+     "claude-haiku-5-5"
+    ]
+   },
+   "pair": {
+    "sessionId": "4adf4c63-b504-4be1-804b-92a88963e275",
+    "transcriptLines": 94,
+    "cwd": "C:\\Users\\smc-user\\Projects\\fixtures\\main-2026-10-08T12-24-54-089Z"
+   }
+  },
+  "plan": {
+   "frames": 236,
+   "wire": 255,
+   "sessionIds": [
+    "3f23c3e1-f254-421b-bfe5-9d26da76dc57"
+   ],
+   "inputs": [
+    {
+     "label": "plan#1",
+     "uuid": "986bc9ea-e2f7-4df3-802e-de7dab8592d5",
+     "images": 0
+    }
+   ],
+   "facts": {
+    "delivery": {
+     "986bc9ea-e2f7-4df3-802e-de7dab8592d5": "completed"
+    },
+    "modeTrail": [
+     "plan",
+     "default"
+    ],
+    "title": "verify-plan",
+    "assistantModels": [
+     "claude-sonnet-5-5",
+     "claude-haiku-5-5"
+    ]
+   },
+   "pair": {
+    "sessionId": "3f23c3e1-f254-421b-bfe5-9d26da76dc57",
+    "transcriptLines": 62,
+    "cwd": "C:\\Users\\smc-user\\Projects\\fixtures\\plan-2026-10-08T12-29-23-246Z"
+   }
+  }
+ }
+}

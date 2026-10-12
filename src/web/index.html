@@ -1,0 +1,21 @@
+<!doctype html>
+<!-- src/web/index.html — app shell.
+     The server replaces the import-map placeholder (below, the only occurrence) with the import map JSON and hashes it into the CSP (http/guard.ts).
+     No other inline script, no inline style (CSP script-src 'self' + hash, style-src 'self', Trusted Types). -->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>SidMultiClaude</title>
+<link rel="icon" href="/favicon.svg">
+<link rel="stylesheet" href="/app/styles/tokens.css">
+<link rel="stylesheet" href="/app/styles/shell.css">
+<link rel="stylesheet" href="/app/styles/chat.css">
+<script type="importmap">__IMPORTMAP__</script>
+<script type="module" src="/app/main.js"></script>
+</head>
+<body>
+<div id="app"></div>
+</body>
+</html>
